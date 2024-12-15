@@ -1,10 +1,10 @@
 Feature: User Management
-   As an admin
+  As an admin
   I want to manage user accounts
   So that I can maintain system integrity and organization
 
   Scenario: Add a new user account
-    Given I am logged in 
+    Given I am logged in as an admin
     When I navigate to the "User Management" page
     And I click "Add User"
     And I fill in the user's details (e.g., name, role)
@@ -18,7 +18,8 @@ Feature: User Management
     And I update the user details (e.g., name, role)
     And I click "Save"
     Then the user account should be updated successfully
-Scenario: Deactivate a user account
+
+  Scenario: Deactivate a user account
     Given I am logged in as an admin
     When I navigate to the "User Management" page
     And I select a user account
@@ -36,4 +37,3 @@ Scenario: Deactivate a user account
     Given I am logged in as an admin
     When I navigate to the "User Engagement" page
     Then I should see statistics such as login frequency and program enrollments
-    
