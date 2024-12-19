@@ -3,12 +3,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 
 public class MyApplication {
     private Map<String, String> users = new HashMap<>();
     private Map<String, String> articleStatus = new HashMap<>();
     private Map<String, String> userDetails = new HashMap<>();
     private boolean isLoggedIn = false;
+    private Map<String, String> items = new HashMap<>();
 
     public MyApplication() {
         // إضافة مستخدمين افتراضيين
@@ -17,7 +19,7 @@ public class MyApplication {
     }
 
     // دالة تسجيل الدخول كأدمن
-    public void loginAsAdmin(String username, String password) {
+    public void loginAsAdmin(String username,String password) {
         if (users.containsKey(username) && users.get(username).equals(password)) {
             isLoggedIn = true;
             System.out.println("Logged in successfully as admin.");
@@ -26,7 +28,7 @@ public class MyApplication {
             System.out.println("Invalid username or password.");
         }
     }
-
+///////////////////////////////////////
     // دالة الانتقال إلى صفحة معينة
     public void navigateToPage(String pageName) {
         if (isLoggedIn) {
@@ -34,48 +36,108 @@ public class MyApplication {
         } else {
             System.out.println("Please log in first.");
         }
-    }
+    }/////////////////////////////////////////
 
     // دالة مراجعة مقال تم تقديمه
-    public void reviewSubmittedArticle() {
+    public String reviewClientProgress(String clientName, double progressPercentage, String clientStatus) {
+        // تحديد الرسالة بناءً على نسبة التقدم
+        String progressMessage;
+
+        if (progressPercentage == 100) {
+            progressMessage = "Client has completed all tasks. Great work!";
+        } else if (progressPercentage >= 50) {
+            progressMessage = "Client is making good progress. Keep it up!";
+        } else {
+            progressMessage = "Client needs more focus to achieve goals.";
+        }
+
+        // إرجاع البيانات كرسالة واحدة
+        return "Reviewing progress for client: " + clientName + "\n" +
+               "Progress Percentage: " + progressPercentage + "%\n" +
+               "Client Status: " + clientStatus + "\n" +
+               "Progress Feedback: " + progressMessage;
+    }
+
+    /////////////////////////////////
+    public void assertArticleStatus(String articleKey) {
         if (isLoggedIn) {
-            System.out.println("Reviewing submitted wellness article.");
+            Scanner scanner = new Scanner(System.in);
+
+            // Ask the user for the article's status
+            System.out.print("Enter the status for " + articleKey + " (e.g., Published, Pending, etc.): ");
+            String status = scanner.nextLine();
+
+            // Set the article's status in the map using the provided articleKey
+            articleStatus.put(articleKey, status);
+
+            // Print the status
+            System.out.println(articleKey + " status set to: " + status);
         } else {
             System.out.println("Please log in first.");
         }
     }
 
-    // دالة تعيين حالة المقال
-    public void assertArticleStatus(String b) {
-        if (isLoggedIn) {
-            articleStatus.put("article1", b);
-            System.out.println("Article status set to: " + b);
-        } else {
-            System.out.println("Please log in first.");
-        }
-    }
+//////////////////////////////////////
 
     // دالة تحديد مرئية المقال
-    public void assertArticleStatusVisibility(boolean visibility) {
-        if (isLoggedIn) {
+    public void assertArticleStatusVisibility() {
+        boolean isAdmin=true;
+		if (isLoggedIn && isAdmin) {
+            Scanner scanner = new Scanner(System.in);
+
+            // طلب من المسؤول تحديد إذا كان المقال مرئيًا أم مخفيًا
+            System.out.print("Enter visibility status for the article (true for visible, false for hidden): ");
+            boolean visibility = scanner.nextBoolean(); // قراءة القيمة من المسؤول
+
+            // إظهار حالة المقال بناءً على الإدخال
             if (visibility) {
                 System.out.println("Article is now visible on the platform.");
             } else {
                 System.out.println("Article is now hidden from the platform.");
             }
         } else {
-            System.out.println("Please log in first.");
+            System.out.println("Only admins can modify visibility status. Please log in as an admin first.");
         }
     }
-
+///////////////////////////////////////////////////////
     // دالة إدخال استعلام البحث
     public void enterSearchQuery(String query) {
         if (isLoggedIn) {
-            System.out.println("Searching for: " + query);
+            // تحقق إذا كان الاستعلام فارغًا
+            if (query == null || query.isEmpty()) {
+                System.out.println("Please enter a valid search query.");
+            } else {
+                System.out.println("Searching for: " + query);
+                boolean found = false;
+                
+                // البحث في الـ HashMap
+                for (Map.Entry<String, String> entry : items.entrySet()) {
+                    if (entry.getValue().toLowerCase().contains(query.toLowerCase())) {
+                        // إذا كانت القيمة تحتوي على الاستعلام
+                        System.out.println("Found: " + entry.getKey() + " - " + entry.getValue());
+                        found = true;
+                    }
+                }
+
+                // إذا لم يتم العثور على أي نتيجة
+                if (!found) {
+                    System.out.println("No results found for: " + query);
+                }
+            }
         } else {
             System.out.println("Please log in first.");
         }
     }
+
+    // إضافة بعض العناصر إلى HashMap للتجربة
+    public void addItemsToSearch() {
+        items.put("1", "Wellness Program");
+        items.put("2", "Fitness Article");
+        items.put("3", "Healthy Recipes");
+        items.put("4", "Weight Loss Guide");
+        items.put("5", "Yoga Classes");
+    }
+    ////////////////////////////////////////////
 
     // دالة عرض المقالات المتعلقة بالاستعلام
     public void assertArticlesRelatedTo(String topic) {
@@ -132,10 +194,23 @@ public class MyApplication {
     }
 
     // دالة لملء تفاصيل المستخدم
-    public void fillUserDetails(String name, String role) {
+    public void fillUserDetails() {
         if (isLoggedIn) {
+            // إنشاء كائن من Scanner لقراءة المدخلات من المستخدم
+            Scanner scanner = new Scanner(System.in);
+
+            // طلب الاسم والدور من المستخدم
+            System.out.print("Enter your name: ");
+            String name = scanner.nextLine();
+
+            System.out.print("Enter your role: ");
+            String role = scanner.nextLine();
+
+            // تخزين البيانات في HashMap
             userDetails.put("name", name);
             userDetails.put("role", role);
+
+            // طباعة التفاصيل التي تم إدخالها
             System.out.println("User details filled: " + name + " as " + role);
         } else {
             System.out.println("Please log in first.");
@@ -213,9 +288,9 @@ public class MyApplication {
         // اختبار دوال مختلفة
         portal.loginAsAdmin("admin", "password123");
         portal.navigateToPage("Dashboard");
-        portal.reviewSubmittedArticle();
+       // portal.reviewSubmittedArticle();
         portal.assertArticleStatus("Approved");
-        portal.assertArticleStatusVisibility(true);
+       // portal.assertArticleStatusVisibility(true);
         portal.enterSearchQuery("Wellness Articles");
         portal.assertArticlesRelatedTo("Health");
         portal.selectArticleStatus("Published");
@@ -223,7 +298,7 @@ public class MyApplication {
         portal.selectReportType("Monthly Report");
         portal.assertPdfReportAvailableForDownload();
         portal.assertSectionsVisible("Active Programs", "Completed Programs");
-        portal.fillUserDetails("John Doe", "Instructor");
+       // portal.fillUserDetails();
         portal.assertUserAccountCreated("John Doe");
         portal.updateUserDetails("John Doe", "Administrator");
         portal.assertUserAccountUpdated("John Doe");
@@ -706,6 +781,55 @@ public class MyApplication {
         }
         System.out.println("Notification sent to user: " + message);
     }
+
+	public void saveNewSubscriptionPlan() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public boolean checkIfPlanIsSaved() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public void assignSubscriptionPlanToUser(String string) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public boolean checkUserAccessToPlanFeatures(String string) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public void viewActiveSubscriptions() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void processSubscriptionUpgrade() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public boolean activateNewPlanAfterUpgrade() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public boolean areActiveSubscriptionsDisplayed() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public void reviewSubmittedArticle() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+
 }
 
 

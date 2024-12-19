@@ -103,7 +103,7 @@ public class UserManagementstepss {
 
     @When("I fill in the user's details \\(e.g., name, role)")
     public void i_fill_in_the_user_s_details_e_g_name_role() {
-        app.fillUserDetails("John Doe", "Manager");
+        app.fillUserDetails();
     }
 
     @Then("the new user account should be created successfully")
