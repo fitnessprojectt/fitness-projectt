@@ -64,6 +64,7 @@ public class MyApplication {
             Scanner scanner = new Scanner(System.in);
 
             // Ask the user for the article's status
+            
             System.out.print("Enter the status for " + articleKey + " (e.g., Published, Pending, etc.): ");
             String status = scanner.nextLine();
 
