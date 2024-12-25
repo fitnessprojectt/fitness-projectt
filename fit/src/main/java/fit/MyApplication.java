@@ -1596,7 +1596,7 @@ public class MyApplication {
 	        }
 			
 		}
-		 // ********** ClientProfile Class **********
+		 // ********** ClientProfile Class ********** Yumna
 	    public class ClientProfile {
 	        private int age;
 	        private String fitnessGoals;
