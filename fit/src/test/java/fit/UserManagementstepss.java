@@ -22,13 +22,13 @@ public class UserManagementstepss {
     }
 
     @When("I review a submitted wellness article")
-    public void i_review_a_submitted_wellness_article() {
-        app.reviewSubmittedArticle();
+    public void i_review_a_submitted_welslness_article(String articleId) {
+        app.reviewSubmittedArticle(articleId);
     }
 
     @When("I click the {string} button")
     public void i_click_the_button(String buttonName) {
-        app.clickButton(buttonName);
+        app.clickButton1(buttonName);
     }
 
     @Then("the article should be marked as {string}")
@@ -68,7 +68,7 @@ public class UserManagementstepss {
 
     @When("I select {string} from the article status dropdown")
     public void i_select_from_the_article_status_dropdown(String status) {
-        app.selectArticleStatus(status);
+        app.selectArticleStatus(status, status);
     }
 
     @Then("I should see only articles with the {string} status")
@@ -88,7 +88,7 @@ public class UserManagementstepss {
 
     @When("I click {string}")
     public void i_click(String buttonName) {
-        app.clickButton(buttonName);
+        app.clickButton1(buttonName);
     }
 
     @Then("a PDF report should be created and available for download")

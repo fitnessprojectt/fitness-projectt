@@ -3,9 +3,11 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
-public class SubscriptionManagementstepss {
+public class SubscriptionManagementstepss<userId> {
 
     private MyApplication app;
+	private String userId;
+	private String newPlanId;
 
     public SubscriptionManagementstepss() {
         app = new MyApplication(); // تهيئة MyApplication
@@ -15,10 +17,10 @@ public class SubscriptionManagementstepss {
     @Then("the new plan should be saved and made available for assignment")
     public void the_new_plan_should_be_saved_and_made_available_for_assignment() {
         // استدعاء الدالة لحفظ الخطة الجديدة
-        app.saveNewSubscriptionPlan();
+        app.saveNewSubscriptionPlan(userId, newPlanId);
         
         // التحقق من حفظ الخطة بشكل صحيح
-        boolean isSaved = app.checkIfPlanIsSaved(); 
+        boolean isSaved = app.checkIfPlanIsSaved(newPlanId); 
         assert isSaved : "Plan was not saved correctly!";  // التحقق من حالة الحفظ
     }
 
@@ -26,7 +28,7 @@ public class SubscriptionManagementstepss {
     @Then("the user should gain access to the features of the assigned plan")
     public void the_user_should_gain_access_to_the_features_of_the_assigned_plan() {
         // تخصيص الخطة للمستخدم
-        app.assignSubscriptionPlanToUser("user123");
+        app.assignSubscriptionPlanToUser(userId, newPlanId);
         
         // التحقق من وصول المستخدم إلى ميزات الخطة
         boolean hasAccess = app.checkUserAccessToPlanFeatures("user123");
@@ -48,10 +50,11 @@ public class SubscriptionManagementstepss {
     @Then("the system should process the upgrade and activate the new plan")
     public void the_system_should_process_the_upgrade_and_activate_the_new_plan() {
         // استدعاء الدالة لمعالجة الترقية
-        app.processSubscriptionUpgrade();
+        app.processSubscriptionUpgrade(userId ,newPlanId);
         
-        // التحقق من تفعيل الخطة الجديدة بعد الترقية
-        boolean isUpgraded = app.activateNewPlanAfterUpgrade();
+        
+		// التحقق من تفعيل الخطة الجديدة بعد الترقية
+        boolean isUpgraded = app.activateNewPlanAfterUpgrade(userId, newPlanId);
         assert isUpgraded : "Upgrade was not processed correctly!";
     }
  

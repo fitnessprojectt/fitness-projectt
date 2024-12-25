@@ -1,5 +1,7 @@
 package fit;
 
+import java.time.LocalDate;
+
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
 import io.cucumber.java.en.Then;
@@ -7,6 +9,10 @@ import io.cucumber.java.en.Then;
 public class ContentManagementstepss {
 
     private MyApplication app;
+	private String tipContent;
+	private LocalDate tipDate;
+	private boolean isLoggedIn;
+	private boolean isAdmin;
 
     public ContentManagementstepss() {
         app = new MyApplication(); // Initialize the application
@@ -84,7 +90,7 @@ public class ContentManagementstepss {
 
     @Then("it becomes visible to users")
     public void it_becomes_visible_to_users() {
-        app.makeTipVisible(null); // Make the tip visible to users
+        app.makeTipVisible( tipContent, tipDate, isLoggedIn,isAdmin); // Make the tip visible to users
     }
 
     @When("it does not meet health and wellness standards")
