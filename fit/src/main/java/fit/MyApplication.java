@@ -6,11 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Arrays;
-
-
-
 // rawan
-
 class Program {
     String name;
     String type;
@@ -47,6 +43,33 @@ class Program {
 ///////////////////////////////
 
 public class MyApplication {
+
+	public class User {
+	    private String username;
+	    private boolean isAdmin;
+
+	    // Constructor to initialize User
+	    public User(String username, boolean isAdmin) {
+	        this.username = username;
+	        this.isAdmin = isAdmin;
+	    }
+
+	    // Getter for isAdmin
+	    public boolean isAdmin() {
+	        return isAdmin;
+	    }
+
+	    // Getter for username
+	    public String getUsername() {
+	        return username;
+	    }
+
+	    // Setter for username (if needed)
+	    public void setUsername(String username) {
+	        this.username = username;
+	    }
+	}
+
 	
     private Map<String, String> users = new HashMap<>();
     private Map<String, String> articleStatus = new HashMap<>();
@@ -1271,6 +1294,13 @@ public class MyApplication {
         System.out.println("Reviewing submitted article with ID: " + articleId);
         System.out.println("Article Content: " + articleContent);
     }
+    
+    
+    
+    
+    
+    
+    
 	///////////////////////////////////////israa code
 	 public boolean loginAsInstructor(String username, String password) {
 	        if (instructors.containsKey(username) && instructors.get(username).equals(password)) {
@@ -1677,7 +1707,7 @@ public class MyApplication {
 	        }
 	        
 	        
-	        public boolean isLoggedIn() {
+	        public boolean isLoggedIn3() {
 	            return loggedIn;
 	        }
 
@@ -1814,10 +1844,16 @@ public class MyApplication {
 	//////  Feedback and Reviews ************************************************************************************
 	    
 	 // Simulate client login
-	    public void loginClient() {
-	        currentClient.setLoggedIn(true);
-	        isLoggedIn3 = true;
+	    public void loginClient(String username,String password) {
+	        if (users.containsKey(username) && users.get(username).equals(password)) {
+	            isLoggedIn = true;
+	            System.out.println("Logged in successfully as admin.");
+	        } else {
+	            isLoggedIn = false;
+	            System.out.println("Invalid username or password.");
+	        }
 	    }
+
 
 	    // Simulate completing a fitness program
 	    public void completeFitnessProgram() {
@@ -2090,7 +2126,7 @@ public class MyApplication {
 	    currentClient.setAttendanceHistory(attendanceHistory);
 	}
 	    public String viewAttendanceHistory() {
-	        if (!currentClient.isLoggedIn() || !currentClient.isEnrolledInProgram()) {
+	        if (!currentClient.isLoggedIn3() || !currentClient.isEnrolledInProgram()) {
 	            return "Client must be logged in and enrolled in a program to view attendance.";
 	        }
 	        List<String> history = currentClient.getAttendanceHistory();
@@ -2108,7 +2144,7 @@ public class MyApplication {
 	    }
 
 	    public String checkProgressTowardsGoals() {
-	        if (!currentClient.isLoggedIn()) return "Client must be logged in to check progress.";
+	        if (!currentClient.isLoggedIn3()) return "Client must be logged in to check progress.";
 	        if (currentClient.getWeightGoal() == null || currentClient.getBmiGoal() == null || currentClient.getRunGoal() == null) {
 	            return "Client must set fitness goals first.";
 	        }
@@ -2124,6 +2160,51 @@ public class MyApplication {
 			// TODO Auto-generated method stub
 			
 		}
+		///////////////////////////////////////////////////////////////////mainmenu
+
+public class MainMenu {
+
+    public void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        String currentScreen = "Main Menu";
+        boolean running = true;
+
+        while (running) {
+            System.out.println("=== Main Menu ===");
+            System.out.println("1. Admin Login");
+            System.out.println("2. Instructor Login");
+            System.out.println("3. Client Login");
+            System.out.println("4. Exit");
+            System.out.print("Select an option: ");
+
+            int option = scanner.nextInt();
+
+            switch (option) {
+                case 1:
+                    currentScreen = "Admin Login Screen";
+                    System.out.println("Navigating to Admin Login Screen...");
+                    break;
+                case 2:
+                    currentScreen = "Instructor Login Screen";
+                    System.out.println("Navigating to Instructor Login Screen...");
+                    break;
+                case 3:
+                    currentScreen = "Client Login Screen";
+                    System.out.println("Navigating to Client Login Screen...");
+                    break;
+                case 4:
+                    currentScreen = "System Exited";
+                    System.out.println("Exiting the system...");
+                    running = false;
+                    break;
+                default:
+                    System.out.println("Invalid option. Please try again.");
+            }
+            System.out.println("Current Screen: " + currentScreen);
+            System.out.println();
+        }
+
+        scanner.close();
+    }
 }
-
-
+}

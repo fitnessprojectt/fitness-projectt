@@ -1,24 +1,23 @@
-Feature: Main Menu Navigation
+Main_Menu.feature
 
-  Scenario: Main menu functionality
-    Given the user is logged in and on the main dashboard
-    When the user accesses the main menu
-    Then they should see the following options:
-      | Admin  |
-      | Instructor |
-      | Client |
+Feature: Fitness Management System Main Menu
 
-  Scenario: Admin menu navigation
-    Given the user is logged in as an admin
-    When the admin selects the "Admin" option from the main menu
-    Then they should be directed to the Admin Section, where they can manage users, programs, and view statistics
+  Scenario: User selects Admin login option
+    Given the user is on the main menu
+    When the user selects option 1
+    Then the user should be taken to the Admin login screen
 
-  Scenario: Instructor menu navigation
-    Given the user is logged in as an instructor
-    When the instructor selects the "Instructor" option from the main menu
-    Then they should be directed to the Instructor Section, where they can manage programs, track client progress, and send notifications
+  Scenario: User selects Instructor login option
+    Given the user is on the main menu
+    When the user selects option 2
+    Then the user should be taken to the Instructor login screen
 
-  Scenario: Client menu navigation
-    Given the user is logged in as a client
-    When the client selects the "Client" option from the main menu
-    Then they should be directed to the Client Section, where they can explore programs, track progress, and provide feedback
+  Scenario: User selects Client login option
+    Given the user is on the main menu
+    When the user selects option 3
+    Then the user should be taken to the Client login screen
+
+  Scenario: User selects Exit option
+    Given the user is on the main menu
+    When the user selects option 4
+    Then the system should exit

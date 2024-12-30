@@ -11,6 +11,8 @@ public class Progress_Tracking_steps {
 
     private MyApplication app;
     private String displayedInfo;
+	private String username;
+	private String password;
 
     public Progress_Tracking_steps() {
         app = new MyApplication(); // Initialize MyApplication
@@ -19,7 +21,7 @@ public class Progress_Tracking_steps {
  // Scenario 1: Track personal fitness milestones
     @Given("the client has completed a fitness program")
     public void the_client_has_completed_a_fitness_program() {
-        app.loginClient(); // Log in the client
+        app.loginClient(username, password); // Log in the client
         app.completeFitnessProgram(); // Mark the fitness program as completed
     }
 
@@ -56,7 +58,7 @@ public class Progress_Tracking_steps {
     // Scenario 3: Client views program attendance
     @Given("the client has enrolled in a fitness program")
     public void the_client_has_enrolled_in_a_fitness_program() {
-        app.loginClient(); // Log in the client
+        app.loginClient(username, username); // Log in the client
         app.enrollInProgram(); // Enroll the client in a program
     }
 
@@ -76,7 +78,7 @@ public class Progress_Tracking_steps {
     // Scenario 4: Client checks progress towards goals
     @Given("the client has set fitness goals")
     public void the_client_has_set_fitness_goals() {
-        app.loginClient(); // Log in the client
+        app.loginClient(username, password); // Log in the client
         app.setFitnessGoals("Lose 5kg", "Improve BMI", "Run 5km"); // Set fitness goals
     }
 

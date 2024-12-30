@@ -11,6 +11,8 @@ public class Feedback_and_Reviews_steps {
     private String reviewText;
     private int rating;
     private String suggestionText;
+	private String username;
+	private String password;
 
     public Feedback_and_Reviews_steps() {
         app = new MyApplication(); // Initialize MyApplication
@@ -19,7 +21,7 @@ public class Feedback_and_Reviews_steps {
     // Scenario 1: Client submits feedback after completing a program
     @Given("the client has completed a fitness program")
     public void the_client_has_completed_a_fitness_program() {
-        app.loginClient(); // Log in the client
+        app.loginClient(username, password); // Log in the client
         app.completeFitnessProgram(); // Simulate program completion
     }
 
