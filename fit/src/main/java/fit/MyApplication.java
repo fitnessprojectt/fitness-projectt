@@ -43,6 +43,9 @@ class Program {
 ///////////////////////////////
 
 public class MyApplication {
+ 
+
+
 
 	public class User {
 	    private String username;
@@ -70,7 +73,9 @@ public class MyApplication {
 	    }
 	}
 
-	
+	   public void runApplication() {
+	        System.out.println("MyApplication is running!");
+	   }
     private Map<String, String> users = new HashMap<>();
     private Map<String, String> articleStatus = new HashMap<>();
     private Map<String, String> userDetails = new HashMap<>();
@@ -135,8 +140,7 @@ public class MyApplication {
         allPrograms.add("Weight Loss Bootcamp");
         allPrograms.add("Muscle Building Mastery");
         allPrograms.add("Intermediate Muscle Building Mastery");
-        
-        this.clientProfile = new ClientProfile();
+        this.clientProfile = new ClientProfile(dietaryUpdateConfirmation, programRating, dietaryUpdateConfirmation, dietaryUpdateConfirmation);
         this.profileCreated = false;
         this.dietaryPreferencesUpdated = false;
         this.profileUpdated = false;
@@ -153,14 +157,17 @@ public class MyApplication {
     }
 
     // دالة تسجيل الدخول كأدمن
-    public void loginAsAdmin(String username,String password) {
+    public  boolean loginAsAdmin(String username,String password) {
         if (users.containsKey(username) && users.get(username).equals(password)) {
             isLoggedIn = true;
             System.out.println("Logged in successfully as admin.");
+            return true;
         } else {
             isLoggedIn = false;
             System.out.println("Invalid username or password.");
+            return false;
         }
+		
     }
 ///////////////////////////////////////
     // دالة الانتقال إلى صفحة معينة
@@ -1627,35 +1634,56 @@ public class MyApplication {
 			
 		}
 		 // ********** ClientProfile Class ********** Yumna
-	    public class ClientProfile {
+		public class ClientProfile {
+	        private String name;
 	        private int age;
 	        private String fitnessGoals;
-	        private List<String> dietaryPreferences;
+	        private String dietaryPreferences;
 
-	        public int getAge() {
-	            return age;
+	        // Constructor to initialize the profile
+	        public ClientProfile(String name, int age, String fitnessGoals, String dietaryPreferences) {
+	            this.name = name;
+	            this.age = age;
+	            this.fitnessGoals = fitnessGoals;
+	            this.dietaryPreferences = dietaryPreferences;
+	        }
+
+	        // Getter and Setter methods for each field
+	        public void setName(String name) {
+	            this.name = name;
+	        }
+
+	        public String getName() {
+	            return name;
 	        }
 
 	        public void setAge(int age) {
 	            this.age = age;
 	        }
 
-	        public String getFitnessGoals() {
-	            return fitnessGoals;
+	        public int getAge() {
+	            return age;
 	        }
 
 	        public void setFitnessGoals(String fitnessGoals) {
 	            this.fitnessGoals = fitnessGoals;
 	        }
 
-	        public List<String> getDietaryPreferences() {
-	            return dietaryPreferences;
+	        public String getFitnessGoals() {
+	            return fitnessGoals;
 	        }
 
-	        public void setDietaryPreferences(List<String> dietaryPreferences) {
+	        public void setDietaryPreferences(String dietaryPreferences) {
 	            this.dietaryPreferences = dietaryPreferences;
 	        }
-	    }
+
+	        public String getDietaryPreferences() {
+	            return dietaryPreferences;
+	        }
+		}
+
+	    
+	  
 
 	 // ********** Client Class **********
 	    public class Client {
@@ -2005,9 +2033,11 @@ public class MyApplication {
 	    
 	//  //  //  Account Management ***********************************************************************************************
 	    
+	//  //  //  Account Management ***********************************************************************************************
+	    
 
 	    public void initializeSystem() {
-	        clientProfile = new ClientProfile(); // Reset the client profile
+	        clientProfile = new ClientProfile(dietaryUpdateConfirmation, programRating, dietaryUpdateConfirmation, dietaryUpdateConfirmation); // Reset the client profile
 	        profileCreated = false;
 	        dietaryPreferencesUpdated = false;
 	        profileUpdated = false;
@@ -2033,9 +2063,12 @@ public class MyApplication {
 	        clientProfile.setFitnessGoals(fitnessGoals);
 	        profileUpdated = true;
 	    }
+
+
+
 	    // Method to add dietary preferences
 	    public void addDietaryPreferences(List<String> preferences) {
-	        clientProfile.setDietaryPreferences(preferences);
+	       // clientProfile.setDietaryPreferences(dietaryPreferences);
 	        dietaryPreferencesUpdated = true; // Mark as updated
 	    }
 
@@ -2093,6 +2126,11 @@ public class MyApplication {
 	            profileUpdateConfirmation = "Profile successfully updated!";
 	        }
 	    }
+	    
+	   // public ClientProfile getClientProfile() {
+	 //       return clientProfile;
+	
+//}
  
 	//  //  //  Progress Tracking ***********************************************************************************************
 	    	  
