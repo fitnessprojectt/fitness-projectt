@@ -128,6 +128,8 @@ public class MAIN {
         }
     }
 
+    
+    
     private static void UserManagementMenu(Scanner scanner, MyApplication app) {
         while (true) {
             System.out.println("\n--- User Management ---");

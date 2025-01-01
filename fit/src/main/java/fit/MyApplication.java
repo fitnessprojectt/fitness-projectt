@@ -2215,6 +2215,7 @@ public class MainMenu {
             System.out.println("4. Exit");
             System.out.print("Select an option: ");
 
+            
             int option = scanner.nextInt();
 
             switch (option) {
