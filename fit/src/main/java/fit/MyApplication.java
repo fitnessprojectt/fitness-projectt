@@ -6,46 +6,64 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Arrays;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 // rawan
 class Program {
-    String name;
-    String type;
-    String startDate;
-    String endDate;
-    List<String> sessionSchedule;
+    private String title;
+    private String duration;
+    private String difficulty;
+    private String goals;
+    private List<String> media;
+    private double price;
+    private List<String> schedule;
+	private Object sessionSchedule;
+    private List<String> sessionSchedule1; 
 
-    public Program(String name, String type, String startDate, String endDate) {
-        this.name = name;
-        this.type = type;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.sessionSchedule = new ArrayList<>(); 
-    }// تهيئة الجدول الفارغ
-        public void addSessionSchedule(List<String> schedule) {
-            this.sessionSchedule.addAll(schedule);  // إضافة الجلسات الجديدة إلى الجدول
-        }
-
-        // إرجاع عدد الجلسات في البرنامج
-        public int getSessionCount() {
-            return sessionSchedule.size();  // إرجاع عدد الجلسات
-        }
-      
-    public void displayDetails() {
-        System.out.println("\nProgram Details:");
-        System.out.println("Name: " + name);
-        System.out.println("Type: " + type);
-        System.out.println("Start Date: " + startDate);
-        System.out.println("End Date: " + endDate);
-        System.out.println("Session Schedule: " + sessionSchedule);
+    public Program(String title, String duration, String difficulty, String goals, List<String> media, double price, List<String> schedule) {
+        this.title = title;
+        this.duration = duration;
+        this.difficulty = difficulty;
+        this.goals = goals;
+        this.media = media;
+        this.price = price;
+        this.schedule = schedule;
+        this.sessionSchedule1 = new ArrayList<>(); 
     }
-}
+    public void addSessionSchedule(List<String> schedule) {
+        if (schedule != null) { 
+            sessionSchedule1.addAll(schedule);
+        } else {
+            System.out.println("Schedule cannot be null.");
+        }
+    }
 
+    public int getSessionCount() {
+        return sessionSchedule1.size(); 
+    }
+        public void displayDetails() {
+            System.out.println("Title: " + title);
+            System.out.println("Duration: " + duration);
+            System.out.println("Difficulty: " + difficulty);
+            System.out.println("Goals: " + goals);
+            System.out.println("Media: " + String.join(", ", media));
+            System.out.println("Price: " + price);
+            System.out.println("Schedule: " + String.join(", ", schedule));
+        }
+        
+        public void setTitle(String title) { this.title = title; }
+        public void setDuration(String duration) { this.duration = duration; }
+        public void setDifficulty(String difficulty) { this.difficulty = difficulty; }
+        public void setGoals(String goals) { this.goals = goals; }
+        public void setMedia(List<String> media) { this.media = media; }
+        public void setPrice(double price) { this.price = price; }
+        public void setSchedule(List<String> schedule) { this.schedule = schedule;}
+}
 ///////////////////////////////
 
 public class MyApplication {
  
-
-
 
 	public class User {
 	    private String username;
@@ -76,14 +94,15 @@ public class MyApplication {
 	   public void runApplication() {
 	        System.out.println("MyApplication is running!");
 	   }
+	private static Map<String, String> accounts = new HashMap<>();  
     private Map<String, String> users = new HashMap<>();
     private Map<String, String> articleStatus = new HashMap<>();
     private Map<String, String> userDetails = new HashMap<>();
-    private boolean isLoggedIn = false;
+ 
     private Map<String, String> items = new HashMap<>();
-    private Map<String, String> instructors = new HashMap<>();
+    public static Map<String, String> instructors = new HashMap<>();
     private Map<String, Program> programs = new HashMap<>();
-    private Map<String, List<String>> clientMessages = new HashMap<>();
+    public Map<String, List<String>> clientMessages = new HashMap<>();
     private Map<String, String> clientProgress = new HashMap<>();
     private Map<String, String> userPlans;
     private Map<String, Boolean> activeSubscriptions;
@@ -101,58 +120,134 @@ public class MyApplication {
     
     private boolean isLoggedIn2 = false;
     private Program currentProgram;
-	private List<String> allPrograms;
+	
+    private boolean isLoggedIn3;
+   
+ // تعريف الماب لتخزين حالة الطلبات
+    Map<String, String> instructorApplications = new HashMap<>();
+    Map<String, Integer> userStatistics = new HashMap<>();
+	private String name;
+	private ClientProfile clientProfile;
+    private boolean profileCreated;
+    private boolean dietaryPreferencesUpdated;
+    private String errorMessage = "";
+    private String profileCreationConfirmation = "";
+    private String profileUpdateConfirmation = "";
+    private Scanner scanner;
+    private String username;
+    private String password;
+    @SuppressWarnings("serial")
+	private List<String> allPrograms = new ArrayList<String>() {{
+        add("Beginner Weight Loss Program");
+        add("Intermediate Weight Loss Program");
+        add("Advanced Weight Loss Program");
+        
+        add("Beginner Flexibility Program");
+        add("Intermediate Flexibility Program");
+        add("Advanced Flexibility Program");
+        
+        add("Beginner Muscle Building Program");
+        add("Intermediate Muscle Building Program");
+        add("Advanced Muscle Building Program");
+        
+        add("Beginner Yoga Program");
+        add("Intermediate Yoga Program");
+        add("Advanced Yoga Program");
+        
+        add("Beginner Strength Training");
+        add("Intermediate Strength Training");
+        add("Advanced Strength Training");
+        
+        add("Weight Loss Bootcamp");
+        add("Muscle Building Mastery");
+        add("Intermediate Muscle Building Mastery");
+        add("7-Day Weight Loss Challenge");
+    }};
+    
+    @SuppressWarnings("serial")
+	private List<String> milestones = new ArrayList<String>(){{
+    	add("Lost 2 kg");
+        add("Reduced BMI by 1 point");
+        add("Attended 10 sessions");
+    }};
+    
+    private List<String> achievements = new ArrayList<String>(){{
+    	add("First Workout Badge");
+        add("10 Days Streak Badge");
+        add("Marathon Completion Badge");
+    }};
+    
+    private List<String> attendanceHistory = new ArrayList<String>(){{
+    	add("01/01/2025: Attended Yoga Session");
+        add("05/01/2025: Attended Cardio Session");
+        add("10/01/2025: Attended Weightlifting Session");
+    }};
+    
+    private List<String> badges = new ArrayList<String>(){{
+    	add("Beginner Badge");
+        add("Consistency Badge");
+        add("Motivation Star");
+    }};
+ 
+    private Client currentClient;  
+    public MyApplication(Client client) {
+        this.currentClient = client;
+    }
+    //////////////////////////////////////
+
+	private LocalDateTime clientReports;
+    /////////////////////
+    private HashMap<String, String> admins = new HashMap<>();
+	private List<String> schedule;
+	private double price;
+	private List<String> media;
+	private String goals;
+	private String difficulty;
+	private String duration;
+	private String title;
+	private Object programName;
+    private boolean isLoggedIn = false;
+    private Map<String, String> clientReports1;
+    private Map<String, String> clients = new HashMap<>();
+
+    private Map<String, List<String>> clientAttendedSessions = new HashMap<>();
+    private Map<String, List<String>> clientScheduledSessions = new HashMap<>();
+    //private Map<String, List<String>> clientFeedback = new HashMap<>();
+
+    
+    private Map<String, List<String>> clientStartedPrograms = new HashMap<>();
+    private Map<String, List<String>> clientCompletedPrograms = new HashMap<>();
+   
+    private List<String> clientFeedback = new ArrayList<>();
+  
     private String selectedProgram;
     private boolean isProgramEnrolled;
-    private Client currentClient; 
-    private boolean isLoggedIn3;
     private String programReview;   
     private int programRating;
     private String programImprovementSuggestion;
     private String previousFeedback;
     private String programSchedule;
-    private boolean profileCreated;
-    private boolean dietaryPreferencesUpdated;
     private boolean profileUpdated;
-    private String profileCreationConfirmation;
     private String dietaryUpdateConfirmation;
-    private String profileUpdateConfirmation;
-    private String errorMessage;
-    private ClientProfile clientProfile;
- // تعريف الماب لتخزين حالة الطلبات
-    Map<String, String> instructorApplications = new HashMap<>();
-    Map<String, Integer> userStatistics = new HashMap<>();
-	private String name;
-
-
-
+   
+    
+   ////////////////////////////////////////////
     public MyApplication() {
+    	
+    	clientMessages = new HashMap<>();
+        clientReports1 = new HashMap<>();
+        
+	  this.clientProfile = new ClientProfile();
+      this.scanner = new Scanner(System.in);
         // إضافة مستخدمين افتراضيين
         users.put("admin", "password123");
         users.put("user1", "userpassword");
-        instructors.put("john_doe", "password123");
-        instructors.put("jane_smith", "securePass456");
         currentClient = new Client();
-        allPrograms = new ArrayList<String>();
-        allPrograms.add("Intermediate Muscle Building Program");
-        allPrograms.add("Beginner Yoga Program");
-        allPrograms.add("Advanced Strength Training");
-        allPrograms.add("Weight Loss Bootcamp");
-        allPrograms.add("Muscle Building Mastery");
-        allPrograms.add("Intermediate Muscle Building Mastery");
-        this.clientProfile = new ClientProfile(dietaryUpdateConfirmation, programRating, dietaryUpdateConfirmation, dietaryUpdateConfirmation);
         this.profileCreated = false;
         this.dietaryPreferencesUpdated = false;
         this.profileUpdated = false;
         this.errorMessage = "";
-        programs.put("Yoga Program", new Program("Yoga Program", "Fitness", "2024-01-01", "2024-03-01"));
-        programs.put("Strength Program", new Program("Strength Program", "Fitness", "2024-02-01", "2024-05-01"));
-        programs.put("Weight Loss Program", new Program("Weight Loss Program", "Fitness", "2024-01-15", "2024-04-15"));
-
-        // إضافة الجلسات إلى البرامج
-        programs.get("Yoga Program").addSessionSchedule(Arrays.asList("Monday 6 PM", "Wednesday 6 PM"));
-        programs.get("Strength Program").addSessionSchedule(Arrays.asList("Tuesday 5 PM", "Thursday 5 PM", "Saturday 9 AM"));
-        programs.get("Weight Loss Program").addSessionSchedule(Arrays.asList("Monday 7 PM", "Friday 7 PM"));
+       
     
     }
 
@@ -280,7 +375,21 @@ public class MyApplication {
         items.put("4", "Weight Loss Guide");
         items.put("5", "Yoga Classes");
     }
+    private String password1;
+
+    // Getter لكلمة المرور (اختياري)
+    public String getPassword() {
+        return password;
+    }
+
+    // Setter لكلمة المرور
+    public void setPassword(String password) {
+        this.password = password1;
+    }
+    
     ////////////////////////////////////////////
+  
+    
 
     // دالة عرض المقالات المتعلقة بالاستعلام
     public void assertArticlesRelatedTo(String topic) {
@@ -1309,626 +1418,706 @@ public class MyApplication {
     
     
 	///////////////////////////////////////israa code
-	 public boolean loginAsInstructor(String username, String password) {
-	        if (instructors.containsKey(username) && instructors.get(username).equals(password)) {
-	            isLoggedIn2 = true;
-	            System.out.println("Logged in successfully as instructor.");
-	            return true;
-	        } else {
-	            System.out.println("Invalid username or password.");
-	            return false;
-	        }
-	    }
+    public boolean loginAsInstructor(String username, String password) {
+        if (instructors.containsKey(username) && instructors.get(username).equals(password)) {
+            isLoggedIn2 = true;
+            System.out.println("Logged in successfully as instructor.");
+            return true;
+        } else {
+            System.out.println("Invalid username or password.");
+            return false;
+        }
+    }
 
-	    
 
-	 public boolean createProgram() {
-		    if (!isLoggedIn2) {
-		        System.out.println("Please log in first.");
-		        return false;
-		    }
+    public void addInstructor(String username, String password) {
+        instructors.put(username, password);
+    }
+        		
 
-		    // استدعاء الدالة لطلب التفاصيل من المستخدم
-		    fillProgramDetails(); // لا حاجة لتمرير null
-		    System.out.println("\nProgram Created Successfully!");
-		    return true;
-		}
+    void fillProgramDetails() {
+        if (!isLoggedIn2) {
+            System.out.println("Please log in first.");
+            return;
+        }
 
-	    void fillProgramDetails() {
-	        if (!isLoggedIn2) {
+        try (Scanner scanner = new Scanner(System.in)) {
+            System.out.print("Enter Program Name: ");
+            String name = scanner.nextLine();
+
+            System.out.print("Enter Program Type (e.g., Educational, Entertainment, etc.): ");
+            String type = scanner.nextLine();
+
+            System.out.print("Enter Program Start Date (e.g., 2024-12-01): ");
+            String startDate = scanner.nextLine();
+
+            System.out.print("Enter Program End Date (e.g., 2024-12-31): ");
+            String endDate = scanner.nextLine();
+
+            currentProgram = new Program(title, duration, difficulty, goals, media, price, schedule);
+            programs.put(name, currentProgram);
+            
+
+            System.out.println("\nProgram Details have been filled successfully!");
+            currentProgram.displayDetails();
+        }		
+	}
+
+	public void displayProgramDetails() {
+        if (currentProgram != null) {
+            currentProgram.displayDetails();
+        } else {
+            System.out.println("No program details available. Please create or fill program details first.");
+        }
+    }
+
+
+    public String reviewClientProgress1(String clientName, double progressPercentage, String clientStatus) {
+        if (!isLoggedIn2) {
+            return "Please log in first.";
+        }
+
+        String progressMessage;
+
+        if (progressPercentage == 100) {
+            progressMessage = "Client has completed all tasks. Great work!";
+        } else if (progressPercentage >= 50) {
+            progressMessage = "Client is making good progress. Keep it up!";
+        } else {
+            progressMessage = "Client needs more focus to achieve goals.";
+        }
+
+        return "Reviewing progress for client: " + clientName + "\n" +
+               "Progress Percentage: " + progressPercentage + "%\n" +
+               "Client Status: " + clientStatus + "\n" +
+               "Progress Feedback: " + progressMessage;
+    }
+
+    public void navigateToPage1(String pageName) {
+        if (isLoggedIn2) {
+            System.out.println("Navigating to page: " + pageName);
+        } else {
+            System.out.println("Please log in first.");
+        }
+    }
+    public void deleteProgram(String programName) {
+        if (programs.containsKey(programName)) {
+            programs.remove(programName);
+            System.out.println("Program " + programName + " deleted successfully.");
+        } else {
+            System.out.println("Program not found.");
+        }
+    }
+
+    public void setGroupSessionSchedules(String programTitle, String sessionType, List<String> sessionSchedule) {
+        System.out.println("Setting schedules for " + programTitle + " (" + sessionType + "):");
+        for (String session : sessionSchedule) {
+            System.out.println("Session: " + session);
+        }
+    }
+    
+    public void navigateToPage1() {
+        if (isLoggedIn2) {
+            System.out.println("Navigating to Page 1...");
+        } else {
+            System.out.println("Please log in first.");
+        }
+    }
+    
+
+    public void selectClients(List<String> enrolledClients) {
+        if (isLoggedIn2) {
+            System.out.println("Clients selected.");
+        } else {
+            System.out.println("Please log in first.");
+        }
+    }
+
+    public void sendMessage(List<String> enrolledClients, String clientName) {
+        if (clientMessages.containsKey(clientName)) {
+            System.out.println("Sending message to client " + clientName + ": " + clientMessages.get(clientName));
+        } else {
+            System.out.println("No messages to send to " + clientName);
+        }
+    }
+    
+
+    public void viewClientMessages(String clientName) {
+        if (clientMessages.containsKey(clientName)) {
+            System.out.println("Messages for " + clientName + ": " + clientMessages.get(clientName));
+        } else {
+            System.out.println("No messages for " + clientName);
+        }
+    }
+    
+
+    public void replyToMessage(String clientName, String replyMessage) {
+        if (clientMessages.containsKey(clientName)) {
+            clientMessages.get(clientName).add(replyMessage);
+            System.out.println("Replied to message for client: " + clientName);
+        } else {
+            System.out.println("No messages to reply to for " + clientName);
+        }
+    }
+
+    public void verifyForumResponse(String forumName, String response) {
+        System.out.println("Verifying forum response for forum " + forumName + ": " + response);
+    }
+
+    public void writeProgressReport(String clientName, String progress) {
+        if (isLoggedIn2) {
+            clientProgress.put(clientName, progress);
+            System.out.println("Progress report written for " + clientName + ": " + progress);
+        } else {
+            System.out.println("Please log in first.");
+        }
+    }
+
+    public void sendProgressReport(String clientName) {
+        if (clientProgress.containsKey(clientName)) {
+            System.out.println("Sending progress report for " + clientName + ": " + clientProgress.get(clientName));
+        } else {
+            System.out.println("No progress report found for " + clientName);
+        }
+    }
+
+    public void updateSchedule(String programName, List<String> scheduleChange) {
+        if (programs.containsKey(programName)) {
+            Program program = programs.get(programName);
+            program.addSessionSchedule(scheduleChange);
+            System.out.println("Schedule updated for program: " + programName);
+        } else {
+            System.out.println("Program not found.");
+        }
+    }
+    
+
+    public List<String> getEnrolledClients(String programName) {
+        if (programs.containsKey(programName)) {
+            return Arrays.asList("Client1", "Client2", "Client3"); 
+        }
+        return new ArrayList<>();
+    }
+
+    public void sendNotification(String notificationMessage, String notificationMessage2) {
+        System.out.println("Sending notification: " + notificationMessage);
+    }
+
+    public void createNewProgram(String programName, String type, String startDate, String endDate) {
+        if (programs.containsKey(programName)) {
+            System.out.println("Program with this name already exists.");
+        } else {
+            programs.put(programName, new Program(title, duration, difficulty, goals, media, price, schedule));
+            System.out.println("New program created: " + programName);
+        }
+    }
+
+    public void createNewOffer(String offerDetails) {
+        System.out.println("New offer created: " + offerDetails);
+    }
+
+    public List<String> getAllClients() {
+        return Arrays.asList("Client1", "Client2", "Client3", "Client4");
+    }
+
+    public void selectClient(String clientName) {
+        System.out.println("Client selected: " + clientName);
+    }
+
+    public String getClientProgress(String clientName) {
+        return clientProgress.getOrDefault(clientName, "No progress report found for this client.");
+    }
+
+    public void sendMotivationalMessage(String clientName, String message) {
+        if (clientMessages.containsKey(clientName)) {
+            clientMessages.get(clientName).add(message);
+            System.out.println("Motivational message sent to client " + clientName);
+        } else {
+            System.out.println("No messages found for client " + clientName);
+        }
+    }
+
+    public void clickButton2(String button) {
+        switch (button.toLowerCase()) {
+            case "submit":
+                System.out.println("Submit button clicked. Performing submit action.");
+                break;
+            
+            case "cancel":
+                System.out.println("Cancel button clicked. Performing cancel action.");
+                break;
+            
+            case "next":
+                System.out.println("Next button clicked. Navigating to the next page.");
+                break;
+
+            case "previous":
+                System.out.println("Previous button clicked. Navigating to the previous page.");
+                break;
+
+            default:
+                System.out.println("Unknown button: " + button);
+                break;
+        }
+    }
+
+       public void composeMessage(String clientName, String message) {
+        if (isLoggedIn2) {
+            if (!clientMessages.containsKey(clientName)) {
+                clientMessages.put(clientName, new ArrayList<>());
+            }
+            clientMessages.get(clientName).add(message);
+            System.out.println("Message composed for client: " + clientName);
+        } else {
+            System.out.println("Please log in first.");
+        }
+    }
+
+	public void updateProgram(Object titleToUpdate, Object newDuration, Object newDifficulty, Object newGoals,
+			Object newMedia, Object newPrice, Object newSchedule) {
+		 if (!isLoggedIn2) {
 	            System.out.println("Please log in first.");
 	            return;
 	        }
 
-	        try (Scanner scanner = new Scanner(System.in)) {
-	            System.out.print("Enter Program Name: ");
-	            String name = scanner.nextLine();
-
-	            System.out.print("Enter Program Type (e.g., Educational, Entertainment, etc.): ");
-	            String type = scanner.nextLine();
-
-	            System.out.print("Enter Program Start Date (e.g., 2024-12-01): ");
-	            String startDate = scanner.nextLine();
-
-	            System.out.print("Enter Program End Date (e.g., 2024-12-31): ");
-	            String endDate = scanner.nextLine();
-
-	            currentProgram = new Program(name, type, startDate, endDate);
-	            programs.put(name, currentProgram);
-	            
-
-	            System.out.println("\nProgram Details have been filled successfully!");
-	            currentProgram.displayDetails();
-	        }		
-		}
-
-		public void displayProgramDetails() {
-	        if (currentProgram != null) {
-	            currentProgram.displayDetails();
-	        } else {
-	            System.out.println("No program details available. Please create or fill program details first.");
-	        }
-	    }
-
-
-	    public String reviewClientProgress1(String clientName, double progressPercentage, String clientStatus) {
-	        if (!isLoggedIn2) {
-	            return "Please log in first.";
-	        }
-
-	        String progressMessage;
-
-	        if (progressPercentage == 100) {
-	            progressMessage = "Client has completed all tasks. Great work!";
-	        } else if (progressPercentage >= 50) {
-	            progressMessage = "Client is making good progress. Keep it up!";
-	        } else {
-	            progressMessage = "Client needs more focus to achieve goals.";
-	        }
-
-	        return "Reviewing progress for client: " + clientName + "\n" +
-	               "Progress Percentage: " + progressPercentage + "%\n" +
-	               "Client Status: " + clientStatus + "\n" +
-	               "Progress Feedback: " + progressMessage;
-	    }
-
-	    public void navigateToPage1(String pageName) {
-	        if (isLoggedIn2) {
-	            System.out.println("Navigating to page: " + pageName);
-	        } else {
-	            System.out.println("Please log in first.");
-	        }
-	    }
-	//////////////////////////////////////////////////////////////////
-	    // حذف البرنامج
-	    public void deleteProgram(String programName) {
-	        if (programs.containsKey(programName)) {
-	            programs.remove(programName);
-	            System.out.println("Program " + programName + " deleted successfully.");
-	        } else {
+	        if (!programs.containsKey(programName)) {
 	            System.out.println("Program not found.");
-	        }
-	    }
-
-	    // إضافة جدول الجلسات
-	    public void addGroupSessionSchedule(String programName, List<String> schedule) {
-	        if (programs.containsKey(programName)) {
-	            Program program = programs.get(programName);
-	            program.addSessionSchedule(schedule);  // إضافة الجدول إلى البرنامج
-	            System.out.println("Group session schedule added to program: " + programName);
-	        } else {
-	            System.out.println("Program not found.");
-	        }
-	    }
-	    
-	    public void navigateToPage1() {
-	        if (isLoggedIn2) {
-	            System.out.println("Navigating to Page 1...");
-	        } else {
-	            System.out.println("Please log in first.");
-	        }
-	    }
-	    
-
-	    public void selectClients(List<String> enrolledClients) {
-	        if (isLoggedIn2) {
-	            System.out.println("Clients selected.");
-	        } else {
-	            System.out.println("Please log in first.");
-	        }
-	    }
-
-	    public void sendMessage(List<String> enrolledClients, String clientName) {
-	        if (clientMessages.containsKey(clientName)) {
-	            System.out.println("Sending message to client " + clientName + ": " + clientMessages.get(clientName));
-	        } else {
-	            System.out.println("No messages to send to " + clientName);
-	        }
-	    }
-	    
-
-	    public void viewClientMessages(String clientName) {
-	        if (clientMessages.containsKey(clientName)) {
-	            System.out.println("Messages for " + clientName + ": " + clientMessages.get(clientName));
-	        } else {
-	            System.out.println("No messages for " + clientName);
-	        }
-	    }
-	    
-
-	    public void replyToMessage(String clientName, String replyMessage) {
-	        if (clientMessages.containsKey(clientName)) {
-	            clientMessages.get(clientName).add(replyMessage);
-	            System.out.println("Replied to message for client: " + clientName);
-	        } else {
-	            System.out.println("No messages to reply to for " + clientName);
-	        }
-	    }
-
-	    public void verifyForumResponse(String forumName, String response) {
-	        System.out.println("Verifying forum response for forum " + forumName + ": " + response);
-	    }
-
-	    public void writeProgressReport(String clientName, String progress) {
-	        if (isLoggedIn2) {
-	            clientProgress.put(clientName, progress);
-	            System.out.println("Progress report written for " + clientName + ": " + progress);
-	        } else {
-	            System.out.println("Please log in first.");
-	        }
-	    }
-	    
-
-	    public void sendProgressReport(String clientName) {
-	        if (clientProgress.containsKey(clientName)) {
-	            System.out.println("Sending progress report for " + clientName + ": " + clientProgress.get(clientName));
-	        } else {
-	            System.out.println("No progress report found for " + clientName);
-	        }
-	    }
-
-	    ///////////////////////////////////////
-
-	    public void updateSchedule(String programName, List<String> scheduleChange) {
-	        if (programs.containsKey(programName)) {
-	            Program program = programs.get(programName);
-	            program.addSessionSchedule(scheduleChange); // تحديث الجدول
-	            System.out.println("Schedule updated for program: " + programName);
-	        } else {
-	            System.out.println("Program not found.");
-	        }
-	    }
-	    
-
-	    public List<String> getEnrolledClients(String programName) {
-	        if (programs.containsKey(programName)) {
-	            // إعادة قائمة العملاء المسجلين في البرنامج
-	            return Arrays.asList("Client1", "Client2", "Client3"); // مثال فقط
-	        }
-	        return new ArrayList<>();
-	    }
-
-	    public void sendNotification(String notificationMessage, String notificationMessage2) {
-	        System.out.println("Sending notification: " + notificationMessage);
-	    }
-
-	    public void createNewProgram(String programName, String type, String startDate, String endDate) {
-	        if (programs.containsKey(programName)) {
-	            System.out.println("Program with this name already exists.");
-	        } else {
-	            programs.put(programName, new Program(programName, type, startDate, endDate));
-	            System.out.println("New program created: " + programName);
-	        }
-	    }
-
-	    public void createNewOffer(String offerDetails) {
-	        System.out.println("New offer created: " + offerDetails);
-	    }
-
-	    public List<String> getAllClients() {
-	        return Arrays.asList("Client1", "Client2", "Client3", "Client4");
-	    }
-
-	    public void selectClient(String clientName) {
-	        System.out.println("Client selected: " + clientName);
-	    }
-
-	    public String getClientProgress(String clientName) {
-	        return clientProgress.getOrDefault(clientName, "No progress report found for this client.");
-	    }
-
-	    public void sendMotivationalMessage(String clientName, String message) {
-	        if (clientMessages.containsKey(clientName)) {
-	            clientMessages.get(clientName).add(message);
-	            System.out.println("Motivational message sent to client " + clientName);
-	        } else {
-	            System.out.println("No messages found for client " + clientName);
-	        }
-	    }
-
-	    public void clickButton2(String button) {
-	        switch (button.toLowerCase()) {
-	            case "submit":
-	                // تنفيذ المنطق عند الضغط على زر "Submit"
-	                System.out.println("Submit button clicked. Performing submit action.");
-	                // يمكن هنا تنفيذ الإجراءات المتعلقة بزر "Submit"
-	                break;
-	            
-	            case "cancel":
-	                // تنفيذ المنطق عند الضغط على زر "Cancel"
-	                System.out.println("Cancel button clicked. Performing cancel action.");
-	                // يمكن هنا تنفيذ الإجراءات المتعلقة بزر "Cancel"
-	                break;
-	            
-	            case "next":
-	                // تنفيذ المنطق عند الضغط على زر "Next"
-	                System.out.println("Next button clicked. Navigating to the next page.");
-	                // يمكن هنا تنفيذ الإجراءات المتعلقة بزر "Next"
-	                break;
-
-	            case "previous":
-	                // تنفيذ المنطق عند الضغط على زر "Previous"
-	                System.out.println("Previous button clicked. Navigating to the previous page.");
-	                // يمكن هنا تنفيذ الإجراءات المتعلقة بزر "Previous"
-	                break;
-
-	            default:
-	                System.out.println("Unknown button: " + button);
-	                // في حالة عدم وجود الزر المعروف
-	                break;
-	        }
-	    }
-
-	       public void composeMessage(String clientName, String message) {
-	        if (isLoggedIn2) {
-	            if (!clientMessages.containsKey(clientName)) {
-	                clientMessages.put(clientName, new ArrayList<>());
-	            }
-	            clientMessages.get(clientName).add(message);
-	            System.out.println("Message composed for client: " + clientName);
-	        } else {
-	            System.out.println("Please log in first.");
-	        }
-	    }
-
-		public void updateProgram(String programId, String newTitle) {
-			if (!isLoggedIn2) {
-	            System.out.println("Please log in first.");
 	            return;
 	        }
 
-	        if (currentProgram == null) {
-	            System.out.println("No program exists to update. Please create a program first.");
-	            return;
-	        }
+	        Program programToUpdate = programs.get(programName);
 
 	        try (Scanner scanner = new Scanner(System.in)) {
 	            System.out.println("\nUpdate Program Details:");
-	            System.out.print("Enter New Program Name (Leave empty to keep current): ");
-	            String newName = scanner.nextLine();
-	            if (!newName.isEmpty()) {
-	                currentProgram.name = newName;
+	            System.out.print("Enter New Program Title (Leave empty to keep current): ");
+	            String newTitle = scanner.nextLine();
+	            if (!newTitle.isEmpty()) {
+	                programToUpdate.setTitle(newTitle);
 	            }
 
-	            System.out.print("Enter New Program Type (Leave empty to keep current): ");
-	            String newType = scanner.nextLine();
-	            if (!newType.isEmpty()) {
-	                currentProgram.type = newType;
+	            System.out.print("Enter New Program Duration (Leave empty to keep current): ");
+	            String newDuration1 = scanner.nextLine();
+	            if (!newDuration1.isEmpty()) {
+	                programToUpdate.setDuration(newDuration1);
 	            }
 
-	            System.out.print("Enter New Program Start Date (Leave empty to keep current): ");
-	            String newStartDate = scanner.nextLine();
-	            if (!newStartDate.isEmpty()) {
-	                currentProgram.startDate = newStartDate;
+	            System.out.print("Enter New Difficulty Level (Leave empty to keep current): ");
+	            String newDifficulty1 = scanner.nextLine();
+	            if (!newDifficulty1.isEmpty()) {
+	                programToUpdate.setDifficulty(newDifficulty1);
 	            }
 
-	            System.out.print("Enter New Program End Date (Leave empty to keep current): ");
-	            String newEndDate = scanner.nextLine();
-	            if (!newEndDate.isEmpty()) {
-	                currentProgram.endDate = newEndDate;
+	            System.out.print("Enter New Goals (Leave empty to keep current): ");
+	            String newGoals1 = scanner.nextLine();
+	            if (!newGoals1.isEmpty()) {
+	                programToUpdate.setGoals(newGoals1);
+	            }
+
+	            System.out.print("Enter New Price (Enter -1 to keep current): ");
+	            double newPrice1 = scanner.nextDouble();
+	            if (newPrice1 >= 0) {
+	                programToUpdate.setPrice(newPrice1);
+	            }
+	            scanner.nextLine();
+
+	            System.out.println("Enter New Media Files (Leave empty to keep current): ");
+	            String newMediaInput = scanner.nextLine();
+	            if (!newMediaInput.isEmpty()) {
+	                List<String> newMedia1 = Arrays.asList(newMediaInput.split(","));
+	                programToUpdate.setMedia(newMedia1);
+	            }
+
+	            System.out.println("Enter New Schedule (Leave empty to keep current): ");
+	            String newScheduleInput = scanner.nextLine();
+	            if (!newScheduleInput.isEmpty()) {
+	                List<String> newSchedule1 = Arrays.asList(newScheduleInput.split(","));
+	                programToUpdate.setSchedule(newSchedule1);
 	            }
 
 	            System.out.println("\nProgram details have been successfully updated!");
-	            currentProgram.displayDetails();
+	            programToUpdate.displayDetails();
 	        }
-			
+		
+	}
+
+	public boolean createProgram(String title2, String duration2, Object difficulty2, String goals2, Object media2,
+            Object price2, Object schedule2) {
+if (!isLoggedIn2) {
+System.out.println("Please log in first.");
+return false;
+}
+
+try (Scanner scanner = new Scanner(System.in)) {
+System.out.print("Enter Program Title: ");
+String title = scanner.nextLine();
+
+System.out.print("Enter Program Duration (e.g., 4 weeks): ");
+String duration = scanner.nextLine();
+
+System.out.print("Enter Difficulty Level (e.g., Beginner, Intermediate, Advanced): ");
+String difficulty = scanner.nextLine();
+
+System.out.print("Enter Program Goals: ");
+String goals = scanner.nextLine();
+
+System.out.print("Enter Price (if applicable): ");
+double price = scanner.nextDouble();
+scanner.nextLine(); 
+
+System.out.println("Enter Media Files (e.g., videos, images, documents), separated by commas: ");
+String mediaInput = scanner.nextLine();
+List<String> media = Arrays.asList(mediaInput.split(","));
+
+System.out.println("Enter Group Session Schedule (dates/times) in format 'YYYY-MM-DD HH:mm', separated by commas:");
+String scheduleInput = scanner.nextLine();
+List<String> schedule = validateScheduleInput(scheduleInput);
+
+if (schedule == null) {
+System.out.println("Invalid date/time format. Please use 'YYYY-MM-DD HH:mm'.");
+return false;
+}
+
+Program newProgram = new Program(title, duration, difficulty, goals, media, price, schedule);
+programs.put(title, newProgram);
+
+System.out.println("\nProgram Created Successfully!");
+newProgram.displayDetails();
+return true;
+}
+}
+
+	private List<String> validateScheduleInput(String scheduleInput) {
+	    List<String> validSchedule = new ArrayList<>();
+	    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+
+	    for (String dateTimeStr : scheduleInput.split(",")) {
+	        try {
+	            LocalDateTime.parse(dateTimeStr.trim(), formatter);
+	            validSchedule.add(dateTimeStr.trim());
+	        } catch (DateTimeParseException e) {
+	            System.out.println("Invalid format for: " + dateTimeStr.trim());
+	            return null;
+	        }
+	    }
+	    return validSchedule;
+	}
+	
+	public boolean sendMessageToClient(String clientUsername, String message) {
+        if (clientUsername == null || clientUsername.isEmpty() || message == null || message.isEmpty()) {
+            return false; 
+        }
+
+        if (!clientMessages.containsKey(clientUsername)) {
+            clientMessages.put(clientUsername, new ArrayList<>());
+        }
+
+        clientMessages.get(clientUsername).add(message);
+        System.out.println("Message sent to " + clientUsername + ": " + message);
+        return true;
+    }
+
+
+
+	public boolean viewMessagesForClient(String clientUsername, String report) {
+	    if (clientUsername == null || clientUsername.isEmpty()) {
+	        return false; 
+	    }
+
+	    if (clientMessages.containsKey(clientUsername)) {
+	        List<String> messages = clientMessages.get(clientUsername);
+	        if (messages != null && !messages.isEmpty()) {
+	            System.out.println("Messages for " + clientUsername + ":");
+	            for (String message : messages) {
+	                System.out.println(message);
+	            }
+	        } else {
+	            System.out.println("No messages for " + clientUsername);
+	        }
+	    } else {
+	        System.out.println("No messages for " + clientUsername);
+	    }
+
+	    if (report != null && !report.isEmpty()) {
+	        String clientReport = clientReports1.get(clientUsername);
+	        if (clientReport != null && !clientReport.isEmpty()) {
+	            System.out.println("Client Report: " + clientReport);
+	        } else {
+	            System.out.println("No report available for " + clientUsername);
+	        }
+	    }
+
+	    return true;
+	}
+
+	 public boolean provideFeedbackToClient(String clientUsername, String feedback) {
+	        if (clientUsername == null || clientUsername.isEmpty() || feedback == null || feedback.isEmpty()) {
+	            return false; 
+	        }
+
+	        clientReports1.put(clientUsername, feedback);
+	        System.out.println("Feedback provided to " + clientUsername + ": " + feedback);
+	        return true;
+	    }
+
+	 public boolean isClientExist(String clientUsername) {
+		    return clientMessages.containsKey(clientUsername);  
 		}
-		 // ********** ClientProfile Class ********** Yumna
-		public class ClientProfile {
+	 
+	 public double getClientCompletionRate(String clientUsername) {
+		    if (!isClientExist(clientUsername)) {
+		        System.out.println("Client does not exist.");
+		        return 0.0;
+		    }
+		    
+		    List<String> completedPrograms = clientCompletedPrograms.get(clientUsername);
+		    List<String> totalPrograms = clientStartedPrograms.get(clientUsername);
+
+		    if (completedPrograms == null || totalPrograms == null || totalPrograms.isEmpty()) {
+		        System.out.println("No programs found for the client.");
+		        return 0.0;
+		    }
+		    double completionRate = (completedPrograms.size() / (double) totalPrograms.size()) * 100;
+		    return completionRate;
+		}
+	 
+	 public boolean sendMotivationalReminder(String clientUsername) {
+		    if (!isClientExist(clientUsername)) {
+		        System.out.println("Client does not exist.");
+		        return false;
+		    }
+
+		    double completionRate = getClientCompletionRate(clientUsername);
+		    String reminderMessage;
+
+		    if (completionRate < 50) {
+		        reminderMessage = "Hey " + clientUsername + ", keep going! You can do it! Stay focused and keep pushing!";
+		    } else {
+		        reminderMessage = "Great job, " + clientUsername + "! You're doing amazing, keep up the excellent work!";
+		    }
+
+		    return sendMessageToClient(clientUsername, reminderMessage);
+		}
+	 
+	 public double getClientAttendanceRate(String clientUsername) {
+		    if (!isClientExist(clientUsername)) {
+		        System.out.println("Client does not exist.");
+		        return 0.0;
+		    }
+
+		    List<String> scheduledSessions = clientScheduledSessions.get(clientUsername);
+		    List<String> attendedSessions = clientAttendedSessions.get(clientUsername);
+
+		    if (scheduledSessions == null || attendedSessions == null || scheduledSessions.isEmpty()) {
+		        System.out.println("No scheduled sessions or attendance data found for this client.");
+		        return 0.0;
+		    }
+
+		    double attendanceRate = (attendedSessions.size() / (double) scheduledSessions.size()) * 100;
+
+		    return attendanceRate;
+		}
+	 
+	 public boolean registerClient(String username, String password) {
+		    if (!clientMessages.containsKey(username)) {
+		        clientMessages.put(username, new ArrayList<>()); 
+		        clientCompletedPrograms.put(username, new ArrayList<>()); 
+		        clientStartedPrograms.put(username, new ArrayList<>()); 
+		        return true;
+		    }
+		    return false; 
+		}
+	 
+	 public boolean addProgramToClient(String clientUsername, String programTitle) {
+		    if (clientStartedPrograms.containsKey(clientUsername)) {
+		        clientStartedPrograms.get(clientUsername).add(programTitle);
+		        return true;
+		    } else {
+		        System.out.println("Client not found or not registered.");
+		        return false;
+		    }
+		}
+	 
+	 public boolean markSessionAsCompleted(String clientUsername, String programTitle, boolean attended) {
+		    if (clientCompletedPrograms.containsKey(clientUsername)) {
+		        if (attended) {
+		            clientCompletedPrograms.get(clientUsername).add(programTitle);
+		        }
+		        return true;
+		    } else {
+		        System.out.println("Client not found or not registered.");
+		        return false;
+		    }
+		}
+	 
+	 
+	 public boolean notifyClientsAboutSchedule(String programTitle, String updatedSchedule) {
+		    if (programs.containsKey(programTitle)) {
+		        for (String client : clientStartedPrograms.keySet()) {
+		            if (clientStartedPrograms.get(client).contains(programTitle)) {
+		                String message = "Schedule update for program '" + programTitle + "': " + updatedSchedule;
+		                sendMessageToClient(client, message);
+		            }
+		        }
+		        return true;
+		    } else {
+		        System.out.println("Program not found.");
+		        return false;
+		    }
+		}
+	 
+	 public boolean announceNewProgramsOrOffers(String announcement) {
+		    if (!clients.isEmpty()) {
+		        for (String client : clients.keySet()) {
+		            sendMessageToClient(client, "Announcement: " + announcement);
+		        }
+		        return true;
+		    } else {
+		        System.out.println("No registered clients to notify.");
+		        return false;
+		    }
+	 }
+	
+	
+	////////////// ********** ClientProfile Class ********** Yumna
+		 //  ********** ClientProfile **********
+	       
+	    public class ClientProfile {
 	        private String name;
 	        private int age;
 	        private String fitnessGoals;
 	        private String dietaryPreferences;
 
-	        // Constructor to initialize the profile
-	        public ClientProfile(String name, int age, String fitnessGoals, String dietaryPreferences) {
-	            this.name = name;
-	            this.age = age;
-	            this.fitnessGoals = fitnessGoals;
-	            this.dietaryPreferences = dietaryPreferences;
-	        }
+	       
+	        public void setName(String name) { this.name = name; }
+	        public String getName() { return name; }
 
-	        // Getter and Setter methods for each field
-	        public void setName(String name) {
-	            this.name = name;
-	        }
+	        public void setAge(int age) { this.age = age; }
+	        public int getAge() { return age; }
 
-	        public String getName() {
-	            return name;
-	        }
+	        public void setFitnessGoals(String fitnessGoals) { this.fitnessGoals = fitnessGoals; }
+	        public String getFitnessGoals() { return fitnessGoals; }
 
-	        public void setAge(int age) {
-	            this.age = age;
-	        }
-
-	        public int getAge() {
-	            return age;
-	        }
-
-	        public void setFitnessGoals(String fitnessGoals) {
-	            this.fitnessGoals = fitnessGoals;
-	        }
-
-	        public String getFitnessGoals() {
-	            return fitnessGoals;
-	        }
-
-	        public void setDietaryPreferences(String dietaryPreferences) {
-	            this.dietaryPreferences = dietaryPreferences;
-	        }
-
-	        public String getDietaryPreferences() {
-	            return dietaryPreferences;
-	        }
-		}
-
+	        public void setDietaryPreferences(String dietaryPreferences) { this.dietaryPreferences = dietaryPreferences; }
+	        public String getDietaryPreferences() { return dietaryPreferences; }
+	    }
 	    
-	  
-
 	 // ********** Client Class **********
 	    public class Client {
 	        private boolean loggedIn;
-	        private boolean isFitnessProgramCompleted;
-	        private boolean isEnrolledInProgram;
-	        private String weight; // e.g., "70kg"
-	        private String bmi; // e.g., "24"
-	        private String attendance; // e.g., "90%"
-	        private List<String> badges; // A list of badges the client has earned
-	        private List<String> attendanceHistory; // List to store attendance records
-	        private String currentWeight;
-	        private String currentBmi;
-	        private String currentRunDistance;
+	        private boolean enrolledInProgram;
+	        private String weight;
+	        private String bmi;
+	        private String attendance;
 	        private String weightGoal;
 	        private String bmiGoal;
 	        private String runGoal;
-	        private int age;
-	        private String fitnessGoals;
-	        private String dietaryPreferences;
+	        private double currentweight;
+	        private double currentBmi;
+	        private double currentRunDistance;
+	        private boolean isLoggedIn = false;
+	        private boolean isFitnessProgramCompleted = false;
 	        
 	        
-	     
-	      
-	        public Client() {
-	            loggedIn = false;
-	            isFitnessProgramCompleted = false;
-	            isEnrolledInProgram = false;
-	            badges = new ArrayList<String>();
-	            attendanceHistory = new ArrayList<String>();
-	            weight = "70"; // Default weight
-	            bmi = "25"; // Default BMI
-	            attendance = "100%"; // Default attendance
-	            currentWeight = "70"; // Default current weight
-	            currentBmi = "25"; // Default current BMI
-	            currentRunDistance = "0"; // Default current running distance
-	            weightGoal = "65"; // Default weight goal
-	            bmiGoal = "22"; // Default BMI goal
-	            runGoal = "5"; // Default running goal
-	            
-	        }
+	        public boolean isLoggedIn() { return loggedIn; }
+	        public void setLoggedIn(boolean loggedIn) { this.loggedIn = loggedIn; }
+	        public boolean isEnrolledInProgram() { return enrolledInProgram; }
+	        public void setEnrolledInProgram(boolean enrolledInProgram) { this.enrolledInProgram = enrolledInProgram; }
+	        public String getWeight() { return weight; }
+	        public void setWeight(String weight) { this.weight = weight; }
+	        public String getBmi() { return bmi; }
+	        public void setBmi(String bmi) { this.bmi = bmi; }
+	        public String getAttendance() { return attendance; }
+	        public void setAttendance(String attendance) { this.attendance = attendance; }
+	        public List<String> getAttendanceHistory() { return attendanceHistory; }
+	        public List<String> getMilestones() { return milestones; }
+	        public List<String> getBadges() { return badges; }
+	        public String getWeightGoal() { return weightGoal; }
+	        public void setWeightGoal(String weightGoal) { this.weightGoal = weightGoal; }
+	        public String getBmiGoal() { return bmiGoal; }
+	        public void setBmiGoal(String bmiGoal) { this.bmiGoal = bmiGoal; }
+	        public String getRunGoal() { return runGoal; }
+	        public void setRunGoal(String runGoal) { this.runGoal = runGoal; }
+	        public String getCurrentWeight() { return "60"; }
+	        public String getCurrentBmi() { return "25"; }
+	        public String getCurrentRunDistance() { return "5"; } 
+	        public boolean isFitnessProgramCompleted() { return true; } 
+			private boolean fitnessProgramCompleted; 
 
-	        
-	        public Client(int age, String fitnessGoals) {
-	            this.age = age;
-	            this.fitnessGoals = fitnessGoals;
-	            this.dietaryPreferences = "";
-	            this.loggedIn = false;
-	        }
-	        
-	        
-	        public boolean isLoggedIn3() {
-	            return loggedIn;
-	        }
+			public void setFitnessProgramCompleted(boolean fitnessProgramCompleted) {
+			    this.fitnessProgramCompleted = fitnessProgramCompleted;
+			}
+			
+		    public List<String> getAchievements() {
+		        return achievements;
+		    }
 
-	        public void setLoggedIn(boolean loggedIn) {
-	            this.loggedIn = loggedIn;
-	        }
+		    public void setCurrentBmi(double currentBmi) {
+		        this.currentBmi = currentBmi;
+		    }
 
-	        public boolean isFitnessProgramCompleted() {
-	            return isFitnessProgramCompleted;
-	        }
+		    public void setCurrentRunDistance(double currentRunDistance) {
+		        this.currentRunDistance = currentRunDistance;
+		    }
+		    
+		    public void setCurrentWeight(double currentweight) {
+		        this.currentweight = currentweight;
+		    }
+		}
 
-	        public void setFitnessProgramCompleted(boolean isFitnessProgramCompleted) {
-	            this.isFitnessProgramCompleted = isFitnessProgramCompleted;
-	        }
 
-	        public boolean isEnrolledInProgram() {
-	            return isEnrolledInProgram;
-	        }
-
-	        public void setEnrolledInProgram(boolean isEnrolledInProgram) {
-	            this.isEnrolledInProgram = isEnrolledInProgram;
-	        }
-
-	        public String getWeight() {
-	            return weight;
-	        }
-
-	        public String getBmi() {
-	            return bmi;
-	        }
-
-	        public String getAttendance() {
-	            return attendance;
-	        }
-
-	        public List<String> getBadges() {
-	            return badges;
-	        }
-
-	        public void addBadge(String badge) {
-	            badges.add(badge);
-	        }
-
-	        public String getCurrentWeight() {
-	            return currentWeight;
-	        }
-
-	        public String getCurrentBmi() {
-	            return currentBmi;
-	        }
-
-	        public String getCurrentRunDistance() {
-	            return currentRunDistance;
-	        }
-
-	        public String getWeightGoal() {
-	            return weightGoal;
-	        }
-
-	        public String getBmiGoal() {
-	            return bmiGoal;
-	        }
-
-	        public String getRunGoal() {
-	            return runGoal;
-	        }
-
-	        public void setWeightGoal(String weightGoal) {
-	            this.weightGoal = weightGoal;
-	        }
-
-	        public void setBmiGoal(String bmiGoal) {
-	            this.bmiGoal = bmiGoal;
-	        }
-
-	        public void setRunGoal(String runGoal) {
-	            this.runGoal = runGoal;
-	        }
-	        
-	        
-	        public void addAttendanceRecord(String record) {
-	            attendanceHistory.add(record);
-	        }
-	        
-	        
-	        // Enroll in a fitness program
-	        public boolean enrollInFitnessProgram() {
-	            if (!isEnrolledInProgram) {
-	                isEnrolledInProgram = true;
-	                return true;
-	            } else {
-	                return false; // Already enrolled
-	            }
-	        }
-	        
-	        public int getAge() {
-	            return age;
-	        }
-
-	        public void setAge(int age) {
-	            this.age = age;
-	        }
-
-	        public String getFitnessGoals() {
-	            return fitnessGoals;
-	        }
-
-	        public void setFitnessGoals(String fitnessGoals) {
-	            this.fitnessGoals = fitnessGoals;
-	        }
-
-	        public String getDietaryPreferences() {
-	            return dietaryPreferences;
-	        }
-
-	        public void setDietaryPreferences(String dietaryPreferences) {
-	            this.dietaryPreferences = dietaryPreferences;
-	        }
-
-	        
-	        public List<String> getAttendanceHistory() {
-	            return attendanceHistory;
-	        }
-
-	        // Setter for attendance history
-	        public void setAttendanceHistory(List<String> attendanceHistory) {
-	            this.attendanceHistory = attendanceHistory;
-	        }
-	    
-	        
-	    }
-	    
-	    
 	//////  Feedback and Reviews ************************************************************************************
 	    
-	 // Simulate client login
-	    public void loginClient(String username,String password) {
-	        if (users.containsKey(username) && users.get(username).equals(password)) {
-	            isLoggedIn = true;
-	            System.out.println("Logged in successfully as admin.");
-	        } else {
-	            isLoggedIn = false;
-	            System.out.println("Invalid username or password.");
-	        }
+	    public void loginClient() {
+	        currentClient.setLoggedIn(true);
+	        isLoggedIn = true;
 	    }
-
-
-	    // Simulate completing a fitness program
+	    
 	    public void completeFitnessProgram() {
-	        if (isLoggedIn3) {
+	        if (isLoggedIn) {
 	            currentClient.setFitnessProgramCompleted(true);
 	        }
 	    }
 
-	    // Navigate to feedback section
 	    public void navigateToFeedbackSection() {
-	        if (!isLoggedIn3 || !currentClient.isFitnessProgramCompleted()) {
+	        if (!isLoggedIn || !currentClient.isFitnessProgramCompleted()) {
 	            throw new IllegalStateException("Client must complete the program to leave feedback.");
 	        }
-	        // Simulated navigation
+	        System.out.println("Navigating to feedback section...");
 	    }
 
-	    // Submit a program rating
 	    public void rateProgram(int rating) {
 	        if (rating < 1 || rating > 5) {
 	            throw new IllegalArgumentException("Rating must be between 1 and 5.");
 	        }
 	        programRating = rating;
+	        System.out.println("Program rated: " + rating);
 	    }
 
-	    // Submit a program review
 	    public void submitProgramReview(String review) {
 	        if (review == null || review.isEmpty()) {
 	            throw new IllegalArgumentException("Review cannot be empty.");
 	        }
 	        programReview = review;
-	        previousFeedback = review; // Store it as previous feedback for later retrieval
+	        previousFeedback = review; 
+	        System.out.println("Review submitted: " + review);
 	    }
 
-	    // Submit an improvement suggestion
 	    public void submitProgramImprovementSuggestion(String suggestion) {
 	        if (suggestion == null || suggestion.isEmpty()) {
 	            throw new IllegalArgumentException("Suggestion cannot be empty.");
 	        }
 	        programImprovementSuggestion = suggestion;
+	        System.out.println("Improvement suggestion submitted: " + suggestion);
 	    }
 
-	 // View previously submitted feedback
 	    public void viewPreviousFeedback() {
-	        // Do nothing; the default value of previousFeedback will remain null if no feedback exists
+	        if (previousFeedback == null || previousFeedback.isEmpty()) {
+	            System.out.println("No previous feedback found.");
+	        } else {
+	            System.out.println("Previous feedback: " + previousFeedback);
+	        }
 	    }
 
-	    // Getter methods for verification in tests
 	    public int getProgramRating() {
 	        return programRating;
 	    }
@@ -1952,13 +2141,12 @@ public class MyApplication {
 	    public String getPreviousFeedback() {
 	        return previousFeedback;
 	    }
-
+	    
 	//////  Program Exploration and Enrollment ************************************************************************************
 
 	    public void navigateToProgramBrowsingPage() {
 	        System.out.println("Navigating to the program browsing page...");
 	    }
-
 
 	    public List<String> filterProgramsByDifficulty(String difficulty) {
 	        List<String> filteredPrograms = new ArrayList<String>();
@@ -1969,7 +2157,7 @@ public class MyApplication {
 	        }
 	        return filteredPrograms;
 	    }
-
+	    
 		
 	    public List<String> filterProgramsByFocusArea(String focusArea) {
 	        List<String> filteredPrograms = new ArrayList<String>();
@@ -1985,15 +2173,13 @@ public class MyApplication {
 	    public List<String> filterProgramsByDifficultyAndFocusArea(String difficulty, String focusArea) {
 	        List<String> filteredPrograms = new ArrayList<String>();
 	        for (String program : allPrograms) {
-	            if (program.toLowerCase().contains(difficulty.toLowerCase().trim()) &&
-	                program.toLowerCase().contains(focusArea.toLowerCase().trim())) {
+	            if (program.toLowerCase().contains(difficulty.toLowerCase()) &&
+	                program.toLowerCase().contains(focusArea.toLowerCase())) {
 	                filteredPrograms.add(program);
 	            }
 	        }
 	        return filteredPrograms;
 	    }
-
-
 
 	    public void selectProgram(String programName) {
 	        if (allPrograms.contains(programName)) {
@@ -2002,7 +2188,6 @@ public class MyApplication {
 	            throw new IllegalArgumentException("Program not found: " + programName);
 	        }
 	    }
-
 
 	    public String enrollInSelectedProgram() {
 	        if (selectedProgram != null && !selectedProgram.isEmpty()) {
@@ -2013,11 +2198,9 @@ public class MyApplication {
 	        }
 	    }
 
-
 	    public boolean isProgramEnrolled() {
 	        return isProgramEnrolled;
 	    }
-
 
 	    public String getProgramSchedule() {
 	        if (isProgramEnrolled && selectedProgram != null) {
@@ -2032,64 +2215,56 @@ public class MyApplication {
 	    
 	    
 	//  //  //  Account Management ***********************************************************************************************
-	    
-	//  //  //  Account Management ***********************************************************************************************
-	    
-
+	        
+	 
 	    public void initializeSystem() {
-	        clientProfile = new ClientProfile(dietaryUpdateConfirmation, programRating, dietaryUpdateConfirmation, dietaryUpdateConfirmation); // Reset the client profile
+	        clientProfile = new ClientProfile();
 	        profileCreated = false;
 	        dietaryPreferencesUpdated = false;
-	        profileUpdated = false;
 	        errorMessage = ""; // Clear any previous error messages
 	    }
-
-	    // Method to enter client details
-	    public void enterClientDetails(int age, String fitnessGoals) {
-	        clientProfile.setAge(age);
-	        clientProfile.setFitnessGoals(fitnessGoals);
-	        
-	    }
 	    
-	    
+	 
 	    public void createProfile(int age, String fitnessGoals) {
 	        clientProfile.setAge(age);
 	        clientProfile.setFitnessGoals(fitnessGoals);
 	        profileCreated = true;
 	    }
 
+	   
 	    public void updateClientDetails(int age, String fitnessGoals) {
 	        clientProfile.setAge(age);
 	        clientProfile.setFitnessGoals(fitnessGoals);
-	        profileUpdated = true;
+	        profileUpdateConfirmation = "Profile successfully updated!";
+	    }
+	    
+	 
+	    public void addDietaryPreferences(ArrayList<String> preferences) {
+	      
+	        dietaryPreferencesUpdated = true;
 	    }
 
-
-
-	    // Method to add dietary preferences
-	    public void addDietaryPreferences(List<String> preferences) {
-	       // clientProfile.setDietaryPreferences(dietaryPreferences);
-	        dietaryPreferencesUpdated = true; // Mark as updated
-	    }
-
+	    
 	    public void submitProfileCreationForm() {
-	        // Validate that age and fitness goals are set
 	        if (clientProfile.getAge() <= 0 || clientProfile.getFitnessGoals() == null || clientProfile.getFitnessGoals().isEmpty()) {
 	            errorMessage = "All fields are required!";
 	        } else {
-	            profileCreated = true; // Simulate successful creation
+	            profileCreated = true;
 	            profileCreationConfirmation = "Profile successfully created!";
 	        }
 	    }
-
-	    // Method to submit the dietary preferences form
-	    public void submitDietaryPreferencesForm() {
-	        if (dietaryPreferencesUpdated) {
-	            dietaryUpdateConfirmation = "Dietary preferences successfully updated!";
+	    
+	 
+	    public void submitProfileUpdate() {
+	        if (clientProfile.getAge() <= 0 || clientProfile.getFitnessGoals() == null || clientProfile.getFitnessGoals().isEmpty()) {
+	            errorMessage = "All fields are required!";
+	        } else {
+	            profileCreated = true;
+	            profileUpdateConfirmation = "Profile successfully updated!";
 	        }
 	    }
-
-	    // Getters for assertions in step definitions
+	    
+	 
 	    public boolean isProfileCreated() {
 	        return profileCreated;
 	    }
@@ -2103,77 +2278,81 @@ public class MyApplication {
 	    }
 
 	    public String getDietaryUpdateConfirmation() {
-	        return dietaryUpdateConfirmation;
-	    }
-
-	    public boolean isProfileUpdated() {
-	        return profileUpdated;
-	    }
-
-	    public String getProfileUpdateConfirmation() {
-	        return profileUpdateConfirmation;
+	        return dietaryPreferencesUpdated ? "Dietary preferences successfully updated!" : "";
 	    }
 
 	    public String getErrorMessage() {
 	        return errorMessage;
 	    }
+
+	    public void viewProfile() {
+	        System.out.println("Profile Details:");
+	        System.out.println("Age: " + clientProfile.getAge());
+	        System.out.println("Fitness Goals: " + clientProfile.getFitnessGoals());
+	        System.out.println("Dietary Preferences: " + clientProfile.getDietaryPreferences());
+	    }
+
+	    public ClientProfile getClientProfile() {
+	        return clientProfile;
+	    }
 	    
-	    public void submitProfileUpdate() {
-	        if (clientProfile.getAge() <= 0 || clientProfile.getFitnessGoals() == null || clientProfile.getFitnessGoals().isEmpty()) {
-	            errorMessage = "All fields are required!";
-	        } else {
-	            profileUpdated = true; // Simulate successful profile update
-	            profileUpdateConfirmation = "Profile successfully updated!";
+	  
+	    public void enterClientDetails(int age, String fitnessGoals) {
+	        clientProfile.setAge(age);
+	        clientProfile.setFitnessGoals(fitnessGoals);
+	        
+	    }
+	    
+	    public void submitDietaryPreferencesForm() {
+	        if (dietaryPreferencesUpdated) {
+	            dietaryUpdateConfirmation = "Dietary preferences successfully updated!";
 	        }
 	    }
 	    
-	   // public ClientProfile getClientProfile() {
-	 //       return clientProfile;
-	
-//}
- 
+	    public boolean isProfileUpdated() {
+	        return profileUpdated;
+	    }
+	    
+	    public String getProfileUpdateConfirmation() {
+	        return profileUpdateConfirmation;
+	    }
+	    
+	  
 	//  //  //  Progress Tracking ***********************************************************************************************
-	    	  
+	    
+	  
 	    public void navigateToProgressTrackingPage() {
-	       System.out.println("Navigating to the progress tracking page...");
+	        System.out.println("Navigating to the progress tracking page...");
 	    }
 	    
-	    public String viewMilestones() {
-	        if (!currentClient.isFitnessProgramCompleted()) {
-	            return "No milestones available.";
+	    public void enrollInProgram() {
+	        if (currentClient == null) {
+	            System.out.println("No client logged in.");
+	            return;
 	        }
-	        return "Weight: " + currentClient.getWeight() + ", BMI: " + currentClient.getBmi() + ", Attendance: " + currentClient.getAttendance();
+	        currentClient.setEnrolledInProgram(true);
+	        System.out.println("Successfully enrolled in program and attendance history added.");
 	    }
 	    
-	public String viewAchievements() {
-	    if (!currentClient.isFitnessProgramCompleted()) {
-	        return "No achievements available.";
+	   public String viewMilestones() {
+	    	List<String> list1 = currentClient.getMilestones();
+	    	return "*** View Milestones ***\n" +
+	    	              String.join(" ----- ", list1) ;         
+	    	    }
+
+
+	    public String viewAchievements() {
+	    	List<String> list2 = currentClient.getAchievements();
+	        return "*** View Achievements ***\n" +
+	               "Badges: " + String.join(" ----- ", list2);
 	    }
-	    List<String> badges = currentClient.getBadges();
-	    return badges.isEmpty() ? "Badges: None earned yet." : "Badges: " + String.join(", ", badges);
-	}
 
-	public void enrollInProgram() {
-	    currentClient.setEnrolledInProgram(true);
-
-	    // Add mock attendance history for testing
-	    List<String> attendanceHistory = new ArrayList<String>();
-	    attendanceHistory.add("Day 1: Attended");
-	    attendanceHistory.add("Day 2: Attended");
-	    attendanceHistory.add("Day 3: Missed");
-	    currentClient.setAttendanceHistory(attendanceHistory);
-	}
 	    public String viewAttendanceHistory() {
-	        if (!currentClient.isLoggedIn3() || !currentClient.isEnrolledInProgram()) {
-	            return "Client must be logged in and enrolled in a program to view attendance.";
-	        }
-	        List<String> history = currentClient.getAttendanceHistory();
-	        // Check if history is null or empty
-	        if (history == null || history.isEmpty()) {
-	            return "Attendance History: No attendance records found.";
-	        }
-	        return "Attendance History: " + String.join(", ", history);
+	        List<String> list3 = currentClient.getAttendanceHistory();
+	        return "*** View Attendance History ***\n" +
+	               "Attendance History: " + String.join(" ----- ", list3);
 	    }
+
 	    public void setFitnessGoals(String weightGoal, String bmiGoal, String runGoal) {
 	        currentClient.setWeightGoal(weightGoal);
 	        currentClient.setBmiGoal(bmiGoal);
@@ -2182,68 +2361,15 @@ public class MyApplication {
 	    }
 
 	    public String checkProgressTowardsGoals() {
-	        if (!currentClient.isLoggedIn3()) return "Client must be logged in to check progress.";
-	        if (currentClient.getWeightGoal() == null || currentClient.getBmiGoal() == null || currentClient.getRunGoal() == null) {
-	            return "Client must set fitness goals first.";
-	        }
-	        return "Progress towards goals: Weight Goal: " + currentClient.getWeightGoal() +
-	               ", Current Weight: " + currentClient.getCurrentWeight() +
-	               ", BMI Goal: " + currentClient.getBmiGoal() +
-	               ", Current BMI: " + currentClient.getCurrentBmi() +
-	               ", Running Goal: " + currentClient.getRunGoal() +
-	               ", Current Running Distance: " + currentClient.getCurrentRunDistance() + "km.";
+	        return "*** Check Progress Towards Goals ***\n" +
+	               "Progress towards goals:\n" +
+	               "Weight Goal: " + currentClient.getWeightGoal() + " -------- Current Weight: " + currentClient.getCurrentWeight() + "\n" +
+	               "BMI Goal: " + currentClient.getBmiGoal() + " ----------- Current BMI: " + currentClient.getCurrentBmi() + "\n" +
+	               "Running Goal: " + currentClient.getRunGoal() + " ------ Current Running Distance: " + currentClient.getCurrentRunDistance() + " km.";
 	    }
 
 		public void assertOnlyArticlesWithStatus(String status) {
 			// TODO Auto-generated method stub
 			
 		}
-		///////////////////////////////////////////////////////////////////mainmenu
-
-public class MainMenu {
-
-    public void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        String currentScreen = "Main Menu";
-        boolean running = true;
-
-        while (running) {
-            System.out.println("=== Main Menu ===");
-            System.out.println("1. Admin Login");
-            System.out.println("2. Instructor Login");
-            System.out.println("3. Client Login");
-            System.out.println("4. Exit");
-            System.out.print("Select an option: ");
-
-            
-            int option = scanner.nextInt();
-
-            switch (option) {
-                case 1:
-                    currentScreen = "Admin Login Screen";
-                    System.out.println("Navigating to Admin Login Screen...");
-                    break;
-                case 2:
-                    currentScreen = "Instructor Login Screen";
-                    System.out.println("Navigating to Instructor Login Screen...");
-                    break;
-                case 3:
-                    currentScreen = "Client Login Screen";
-                    System.out.println("Navigating to Client Login Screen...");
-                    break;
-                case 4:
-                    currentScreen = "System Exited";
-                    System.out.println("Exiting the system...");
-                    running = false;
-                    break;
-                default:
-                    System.out.println("Invalid option. Please try again.");
-            }
-            System.out.println("Current Screen: " + currentScreen);
-            System.out.println();
-        }
-
-        scanner.close();
-    }
-}
-}
+	}

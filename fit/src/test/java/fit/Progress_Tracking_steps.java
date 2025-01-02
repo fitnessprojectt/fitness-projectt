@@ -11,28 +11,26 @@ public class Progress_Tracking_steps {
 
     private MyApplication app;
     private String displayedInfo;
-	private String username;
-	private String password;
 
     public Progress_Tracking_steps() {
-        app = new MyApplication(); // Initialize MyApplication
+        app = new MyApplication();
     }
 
- // Scenario 1: Track personal fitness milestones
+
     @Given("the client has completed a fitness program")
     public void the_client_has_completed_a_fitness_program() {
-        app.loginClient(username, password); // Log in the client
-        app.completeFitnessProgram(); // Mark the fitness program as completed
+        app.loginClient(); 
+        app.completeFitnessProgram(); 
     }
 
     @When("the client navigates to the progress section")
     public void theClientNavigatesToTheProgressSection() {
-        app.navigateToProgressTrackingPage(); // Navigate to the progress page
+        app.navigateToProgressTrackingPage(); 
     }
 
     @When("the client requests to view milestones")
     public void theClientRequestsToViewMilestones() {
-        displayedInfo = app.viewMilestones(); // View milestones
+        displayedInfo = app.viewMilestones(); 
     }
 
     @Then("the system displays the client’s current weight, BMI, and attendance records")
@@ -43,10 +41,10 @@ public class Progress_Tracking_steps {
         assertTrue(displayedInfo.contains("Attendance"));
     }
 
-    // Scenario 2: View achievements after completing a program
+   
     @When("the client views their achievements")
     public void theClientViewsTheirAchievements() {
-        displayedInfo = app.viewAchievements(); // View achievements
+        displayedInfo = app.viewAchievements(); 
     }
 
     @Then("the system displays any badges earned for completing the program")
@@ -55,36 +53,36 @@ public class Progress_Tracking_steps {
         assertTrue(displayedInfo.contains("Badges"));
     }
 
-    // Scenario 3: Client views program attendance
+  
     @Given("the client has enrolled in a fitness program")
     public void the_client_has_enrolled_in_a_fitness_program() {
-        app.loginClient(username, username); // Log in the client
-        app.enrollInProgram(); // Enroll the client in a program
+        app.loginClient(); 
+        app.enrollInProgram(); 
     }
 
     @When("the client requests to view attendance")
     public void theClientRequestsToViewAttendance() {
-        displayedInfo = app.viewAttendanceHistory(); // View attendance
+        displayedInfo = app.viewAttendanceHistory(); 
     }
 
     @Then("the system displays the client’s attendance history for the program")
     public void theSystemDisplaysTheClientSAttendanceHistoryForTheProgram() {
-        assertNotNull(displayedInfo); // Ensure displayedInfo is not null
-        System.out.println("Displayed Info: " + displayedInfo); // Debugging output
-        assertTrue(displayedInfo.startsWith("Attendance History:")); // Verify the content
+        assertNotNull(displayedInfo); 
+        System.out.println("Displayed Info: " + displayedInfo); 
+        assertTrue(displayedInfo.startsWith("Attendance History:")); 
     }
 
 
-    // Scenario 4: Client checks progress towards goals
+    
     @Given("the client has set fitness goals")
     public void the_client_has_set_fitness_goals() {
-        app.loginClient(username, password); // Log in the client
-        app.setFitnessGoals("Lose 5kg", "Improve BMI", "Run 5km"); // Set fitness goals
+        app.loginClient(); 
+        app.setFitnessGoals("Lose 5kg", "Improve BMI", "Run 5km"); 
     }
 
     @When("the client checks progress towards those goals")
     public void the_client_checks_progress_towards_goals() {
-        displayedInfo = app.checkProgressTowardsGoals(); // Check progress
+        displayedInfo = app.checkProgressTowardsGoals(); 
     }
 
     @Then("the system shows how far the client has progressed in terms of weight, BMI, or other metrics")

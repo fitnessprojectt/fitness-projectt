@@ -21,11 +21,9 @@ public class NotificationsAndUpdatesSteps {
     @When("I update the schedule of a program")
     public void iUpdateTheScheduleOfAProgram() {
         programName = "Fitness Program 1";
-        // إذا كان scheduleChange يتكون من أكثر من عنصر، يمكن تعديل هذا ليكون List<String>
         scheduleChange = List.of("Every Monday and Wednesday at 6 PM");
         System.out.println("Updated the schedule for " + programName + ": " + scheduleChange);
 
-        // تحديث الجدول في التطبيق
         app.updateSchedule(programName, scheduleChange);
     }
 
@@ -43,12 +41,11 @@ public class NotificationsAndUpdatesSteps {
     @When("I create a new fitness program")
     public void iCreateANewFitnessProgram() {
         programName = "Fitness Program 2";
-        String type = "Weight Loss";  // تحديد نوع البرنامج (مثلًا "Weight Loss")
-        String startDate = "2024-01-01";  // تاريخ البدء
-        String endDate = "2024-06-01";  // تاريخ الانتهاء
+        String type = "Weight Loss"; 
+        String startDate = "2024-01-01";  
+        String endDate = "2024-06-01";  
         System.out.println("Created a new fitness program: " + programName);
 
-        // إضافة البرنامج الجديد في التطبيق
         app.createNewProgram(programName, type, startDate, endDate);
     }
 
@@ -68,7 +65,6 @@ public class NotificationsAndUpdatesSteps {
         newOffer = "20% discount on Fitness Program 2";
         System.out.println("Created a new offer: " + newOffer);
 
-        // إضافة العرض الجديد في التطبيق
         app.createNewOffer(newOffer);
     }
 

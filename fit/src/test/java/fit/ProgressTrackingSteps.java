@@ -14,14 +14,11 @@ public class ProgressTrackingSteps {
     private String selectedClient;
     private String clientProgress;
     private String motivationalMessage;
-
-    // تعديل: إضافة متغيرات username و password
     private String username = "instructor";
     private String password = "password123";
 
     @Given("the instructor is logged in successfully")
     public void theInstructorIsLoggedInSuccessfully() {
-        // تصحيح التهجئة وتمرير username و password بشكل صحيح
         boolean loggedIn = app.loginAsInstructor(username, password);
         if (!loggedIn) {
             throw new RuntimeException("Login failed");
@@ -31,7 +28,7 @@ public class ProgressTrackingSteps {
 
     @Given("the instructor navigates to the Client Progress page")
     public void theInstructorNavigatesToTheClientProgressPage() {
-        app.navigateToPage("Client Progress");
+        app.navigateToPage1("Client Progress");
     }
 
     @When("the instructor selects a client")

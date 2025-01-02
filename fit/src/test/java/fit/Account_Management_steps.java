@@ -13,53 +13,47 @@ public class Account_Management_steps {
     private MyApplication app;
 
     public Account_Management_steps() {
-        app = new MyApplication(); // Initialize your application logic here
+        app = new MyApplication(); 
     }
 
     @Given("the client opens the system")
     public void theClientOpensTheSystem() {
-        app.initializeSystem(); // Simulate opening the system
+        app.initializeSystem(); 
     }
 
     @When("the client enters personal details such as age and fitness goals")
     public void theClientEntersPersonalDetails(DataTable dataTable) {
         List<List<String>> data = dataTable.asLists(String.class);
-        int age = Integer.parseInt(data.get(1).get(0)); // Get age from the first row
-        String fitnessGoals = data.get(1).get(1); // Get fitness goals from the first row
-        app.enterClientDetails(age, fitnessGoals); // Simulate entering details
-    }
-
-    @When("the client adds dietary preferences")
-    public void theClientAddsDietaryPreferences(DataTable dataTable) {
-        List<String> preferences = dataTable.asList(String.class); // Get dietary preferences
-        app.addDietaryPreferences(preferences); // Simulate adding dietary preferences
+        int age = Integer.parseInt(data.get(1).get(0)); 
+        String fitnessGoals = data.get(1).get(1); 
+        app.enterClientDetails(age, fitnessGoals); 
     }
 
     @When("the client submits the profile creation form")
     public void theClientSubmitsTheProfileCreationForm() {
-        app.submitProfileCreationForm(); // Simulate form submission
+        app.submitProfileCreationForm(); 
     }
 
     @When("the client submits the dietary preferences form")
     public void theClientSubmitsTheDietaryPreferencesForm() {
-        app.submitDietaryPreferencesForm(); // Simulate dietary preferences submission
+        app.submitDietaryPreferencesForm(); 
     }
 
     @Then("the system saves the client profile and confirms the profile creation")
     public void theSystemSavesTheClientProfileAndConfirmsTheProfileCreation() {
-        assertTrue(app.isProfileCreated()); // Check if the profile is created
+        assertTrue(app.isProfileCreated()); 
         assertEquals("Profile successfully created!", app.getProfileCreationConfirmation());
     }
 
     @Then("the system updates the client profile with dietary preferences and confirms the update")
     public void theSystemUpdatesTheClientProfileWithDietaryPreferencesAndConfirmsTheUpdate() {
-        assertTrue(app.isDietaryPreferencesUpdated()); // Check if preferences are updated
+        assertTrue(app.isDietaryPreferencesUpdated()); 
         assertEquals("Dietary preferences successfully updated!", app.getDietaryUpdateConfirmation());
     }
 
     @Then("the system updates the profile and confirms the changes")
     public void theSystemUpdatesTheProfileAndConfirmsTheChanges() {
-        assertTrue(app.isProfileUpdated()); // Check if the profile is updated
+        assertTrue(app.isProfileUpdated()); 
         assertEquals("Profile successfully updated!", app.getProfileUpdateConfirmation());
     }
 
@@ -70,25 +64,25 @@ public class Account_Management_steps {
     
     @Given("the client has an existing profile")
     public void theClientHasAnExistingProfile() {
-        app.createProfile(25, "Weight Loss"); // Simulate creating a profile with default values
+        app.createProfile(25, "Weight Loss"); 
     }
 
     @When("the client updates their personal details")
     public void theClientUpdatesTheirPersonalDetails(DataTable dataTable) {
         List<List<String>> data = dataTable.asLists(String.class);
-        int age = Integer.parseInt(data.get(1).get(0)); // Get updated age
-        String fitnessGoals = data.get(1).get(1); // Get updated fitness goals
-        app.updateClientDetails(age, fitnessGoals); // Simulate updating details
+        int age = Integer.parseInt(data.get(1).get(0)); 
+        String fitnessGoals = data.get(1).get(1); 
+        app.updateClientDetails(age, fitnessGoals); 
     }
 
     @When("the client submits the profile creation form without entering personal details")
     public void theClientSubmitsTheProfileCreationFormWithoutEnteringPersonalDetails() {
-        app.submitProfileCreationForm(); // Submit without setting required fields
+        app.submitProfileCreationForm(); 
     }
     
     @When("the client submits the changes")
     public void theClientSubmitsTheChanges() {
-        app.submitProfileUpdate(); // Simulate submitting the profile update
+        app.submitProfileUpdate(); 
     }
 
 

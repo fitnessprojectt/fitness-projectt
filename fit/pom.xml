@@ -67,6 +67,11 @@
             <version>7.20.1</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+        	<groupId>org.example</groupId>
+        	<artifactId>Sweet_System</artifactId>
+        	<version>1.0-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
     <!-- Add the Jacoco Maven Plugin Configuration here -->

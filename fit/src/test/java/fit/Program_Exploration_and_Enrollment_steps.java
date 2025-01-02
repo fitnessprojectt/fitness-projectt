@@ -15,18 +15,18 @@ public class Program_Exploration_and_Enrollment_steps {
     private String programSchedule;
 
     public Program_Exploration_and_Enrollment_steps() {
-        app = new MyApplication(); // Initialize MyApplication
+        app = new MyApplication(); 
     }
 
-    // Scenario 1: Browse programs by difficulty level
+ 
     @Given("the client is on the program browsing page")
     public void the_client_is_on_the_program_browsing_page() {
-        app.navigateToProgramBrowsingPage(); // Navigate to the program browsing page
+        app.navigateToProgramBrowsingPage(); 
     }
 
     @When("the client filters programs by difficulty level {string}")
     public void the_client_filters_programs_by_difficulty_level(String difficulty) {
-        filteredPrograms = app.filterProgramsByDifficulty(difficulty); // Filter programs by difficulty
+        filteredPrograms = app.filterProgramsByDifficulty(difficulty); 
     }
 
     @Then("the system displays all available programs with difficulty level {string}")
@@ -38,10 +38,10 @@ public class Program_Exploration_and_Enrollment_steps {
         }
     }
 
-    // Scenario 2: Browse programs by focus area
+   
     @When("the client filters programs by focus area {string}")
     public void the_client_filters_programs_by_focus_area(String focusArea) {
-        filteredPrograms = app.filterProgramsByFocusArea(focusArea); // Filter programs by focus area
+        filteredPrograms = app.filterProgramsByFocusArea(focusArea); 
     }
 
     @Then("the system displays all available programs with focus area {string}")
@@ -53,7 +53,7 @@ public class Program_Exploration_and_Enrollment_steps {
         }
     }
 
-    // Scenario 3: Browse programs by both difficulty level and focus area
+    
     @When("the client filters programs by difficulty level {string} and focus area {string}")
     public void the_client_filters_programs_by_difficulty_level_and_focus_area(String difficulty, String focusArea) {
         filteredPrograms = app.filterProgramsByDifficultyAndFocusArea(difficulty, focusArea);
@@ -71,15 +71,15 @@ public class Program_Exploration_and_Enrollment_steps {
 
 
 
-    // Scenario 4: Enroll in a program
+    
     @Given("the client has selected a program")
     public void the_client_has_selected_a_program() {
-        app.selectProgram("Beginner Yoga Program"); // Select a program (example: Beginner Yoga Program)
+        app.selectProgram("Beginner Yoga Program"); 
     }
 
     @When("the client clicks \"Enroll\"")
     public void the_client_clicks_enroll() {
-        enrollmentConfirmation = app.enrollInSelectedProgram(); // Enroll in the selected program
+        enrollmentConfirmation = app.enrollInSelectedProgram(); 
     }
 
     @Then("the system adds the selected program to the client’s profile and confirms enrollment")
@@ -89,7 +89,7 @@ public class Program_Exploration_and_Enrollment_steps {
         assertTrue(app.isProgramEnrolled());
     }
 
-    // Scenario 5: View program schedule
+    
     @Given("the client is enrolled in a program")
     public void the_client_is_enrolled_in_a_program() {
         app.selectProgram("Intermediate Muscle Building Mastery");
