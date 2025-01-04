@@ -690,7 +690,7 @@ public class MyApplication {
     }
 
 //////////////////////////////////////////////////////////////////////
-  /*  public void assertOnlyArticlesWithStatus(String status) {
+    public void assertOnlyArticlesWithStatus(String status) {
         if (isLoggedIn) {
             boolean found = false;
             // تحقق من وجود مقالات بالحالة المحددة
@@ -707,8 +707,8 @@ public class MyApplication {
         } else {
             System.out.println("Please log in first.");
         }
-    }*/
-///////////////////////////////////////////////////////////
+    }
+/////////////////////////////////////////////////////////// 
     public void assertSearchResultsContain(String word) {
         if (isLoggedIn) {
             boolean found = false;
@@ -2368,8 +2368,7 @@ return true;
 	               "Running Goal: " + currentClient.getRunGoal() + " ------ Current Running Distance: " + currentClient.getCurrentRunDistance() + " km.";
 	    }
 
-		public void assertOnlyArticlesWithStatus(String status) {
-			// TODO Auto-generated method stub
-			
-		}
+	
+
+		
 	}

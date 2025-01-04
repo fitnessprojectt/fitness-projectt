@@ -22,4 +22,4 @@ Feature: Program Management
     Given I am logged in as an instructor
     When I navigate to Set Schedule page
     And I add a group session schedule (date, time, location)
-    Then Group session scheduled successfully
+    Then Group session scheduled successfully

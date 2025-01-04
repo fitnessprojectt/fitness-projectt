@@ -75,5 +75,4 @@ public class Feedback_and_Reviews_steps {
             assertEquals(reviewText, previousFeedback);
         }
     }
-
 }
