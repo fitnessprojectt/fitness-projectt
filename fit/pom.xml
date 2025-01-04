@@ -24,8 +24,8 @@
     <properties>
         <!-- SonarQube Configuration -->
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
-        <sonar.organization>fittnesprojecttt</sonar.organization>
-        <sonar.projectKey>fittnesprojecttt</sonar.projectKey>
+        <sonar.organization>softeng-proj</sonar.organization>
+        <sonar.projectKey>softeng-proj</sonar.projectKey>
     </properties>
 
     <dependencies>
