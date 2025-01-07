@@ -46,8 +46,8 @@ public class Admin {
 		        System.out.println("MyApplication is running!");
 		   }
 		
-	    private Map<String, String> users = new HashMap<>();
-	    private Map<String, String> articleStatus = new HashMap<>();
+	    Map<String, String> users = new HashMap<>();
+	   private Map<String, String> articleStatus = new HashMap<>();
 	    private Map<String, String> userDetails = new HashMap<>();
 	 
 	    private Map<String, String> items = new HashMap<>();
@@ -65,12 +65,14 @@ public class Admin {
 	    Map<String, String> instructorApplications = new HashMap<>();
 	    Map<String, Integer> userStatistics = new HashMap<>();
 		private String name;
+	    Map<String, String> accounts = new HashMap<>();
+
 		
 	  
 	    private String password;
 	   
 		
-	    public boolean checkUserAccessToPlanFeatures1(String userId) {
+	   public boolean checkUserAccessToPlanFeatures1(String userId) {
 	        if (userPlans == null || !userPlans.containsKey(userId)) {
 	            return false; 
 	        }
@@ -162,7 +164,7 @@ public class Admin {
 	    }
 
 	   
-	    public void enterSearchQuery(String query) {
+	   public void enterSearchQuery(String query) {
 	        if (isLoggedIn) {
 	            if (query == null || query.isEmpty()) {
 	                System.out.println("Please enter a valid search query.");
@@ -195,7 +197,7 @@ public class Admin {
 	        items.put("5", "Yoga Classes");
 	    }
 	    private String password1;
-	    private Map<String, String> accounts = new HashMap<>();
+	 
 
 	 
 	    public String getPassword() {
@@ -733,6 +735,9 @@ public class Admin {
 	        tips.add(tipContent);
 	        System.out.println("Tip submitted successfully.");
 	    }
+	    public List<String> getTips() {
+	        return tips;
+	    }
 
 	    public void reviewTip() {
 	        if (tips.isEmpty()) {
@@ -832,7 +837,7 @@ public class Admin {
 	        }
 	    }   
 
-	    public String getName() {
+	   public String getName() {
 	        if (this.name == null) {
 	            return "Unknown Submitter"; // قيمة افتراضية إذا كانت null
 	        }
@@ -1197,6 +1202,24 @@ public class Admin {
 	            System.out.println("Client not found.");
 	        }
 	    }
+
+
+		public void selectFilter(String filterType, Integer min, Integer max) {
+			// TODO Auto-generated method stub
+			
+		}
+
+
+		public void setDateRange(String startDate, String endDate) {
+			// TODO Auto-generated method stub
+			
+		}
+
+
+		public void searchForProgram(String programName) {
+			// TODO Auto-generated method stub
+			
+		}
 
 	    
 	}

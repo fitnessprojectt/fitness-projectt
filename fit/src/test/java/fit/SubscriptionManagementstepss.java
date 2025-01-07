@@ -91,7 +91,6 @@ public class SubscriptionManagementstepss {
 
 @Then("the system should process the upgrade and activate the new plan")
 public void theSystemShouldProcessTheUpgradeAndActivateTheNewPlan() {
-   
 }
-   
+
 }

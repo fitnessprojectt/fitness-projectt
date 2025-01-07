@@ -1,139 +1,192 @@
 package fit;
-import io.cucumber.java.en.Given;
-import io.cucumber.java.en.Then;
-import io.cucumber.java.en.When;
+import static org.junit.Assert.*;
+import org.junit.Test;
+import java.util.*;
 
 public class UserManagementstepss {
-
+ 
     private Admin app1;
-
     public UserManagementstepss() {
         app1 = new Admin(); // تهيئة MyApplication
     }
 
-    @Given("I am logged in as an admin")
-    public void i_am_logged_in_as_an_admin() {
-        app1.loginAsAdmin("adminUsername", "adminPassword");
+
+    @Test
+    public void testAdminLoginSuccess() {
+        assertTrue(app1.loginAsAdmin("admin1", "adminPass"));
+    }
+
+    @Test
+    public void testAdminLoginFailure() {
+        assertFalse(app1.loginAsAdmin("admin1", "wrongPass"));
+    }
+
+    @Test
+    public void testSubmitTipSuccess() {
+        app1.submitTip("This is a tip.");
+        assertEquals(1, app1.getTips().size());
+    }
+
+    @Test
+    public void testSubmitEmptyTip() {
+        app1.submitTip("");
+        assertEquals(0, app1.getTips().size());
+    }
+
+    @Test
+    public void testReviewTip() {
+        app1.submitTip("Tip 1");
+        assertEquals("Tip 1", app1.getTips().get(0));
+    }
+
+    @Test
+    public void testApproveTip() {
+        app1.submitTip("Tip 1");
+        app1.approveTip("Tip 1");
+        assertTrue(app1.getTips().contains("Tip 1"));
+    }
+
+    @Test
+    public void testRejectTip() {
+    	app1.submitTip("Tip 1");
+    	app1.rejectTip("Tip 1");
+        assertFalse(app1.getTips().contains("Tip 1"));
+    }
+
+    @Test
+    public void testRejectNonexistentTip() {
+    	app1.rejectTip("Nonexistent Tip");
+        assertEquals(0, app1.getTips().size());
     }
 
    
+    @Test
+    public void testAddInstructor() {
+        // محاكاة المدخلات باستخدام Scanner
+        Scanner scanner = new Scanner(System.in);
+        
+        // تمرير المدخلات عبر الـ Scanner (ملاحظة: المدخلات هنا ستكون من المستخدم)
+        app1.addInstructor(scanner);  
 
-    @When("I review a submitted wellness article")
-    public void i_review_a_submitted_welslness_article(String articleId) {
-        app1.reviewSubmittedArticle(articleId);
+        // التحقق من أن المعلم تم إضافته إلى instructors
+        // نحاول الوصول إلى أول مفتاح موجود في Map
+        assertFalse(Admin.instructors.isEmpty()); // التأكد من أن الـ Map ليس فارغًا
+
+        // الحصول على أول معلم تم إضافته (المفتاح الأول)
+        String firstInstructor = Admin.instructors.keySet().iterator().next(); 
+
+        // التأكد من أن المفتاح الموجود في Map هو نفس المدخلات التي تم إدخالها عبر الـ Scanner
+        assertNotNull(firstInstructor);  // التأكد من أن المفتاح ليس فارغًا
+        System.out.println("Instructor added: " + firstInstructor);
+
+        // التحقق من أن كلمة المرور المدخلة تم تخزينها في الـ Map بشكل صحيح
+        String storedPassword = Admin.instructors.get(firstInstructor); 
+        assertNotNull(storedPassword);  // التأكد من أنه تم تخزين كلمة المرور
+        System.out.println("Instructor password: " + storedPassword);
     }
 
-   
-    @Then("the article should be marked as {string}")
-    public void the_article_should_be_marked_as(String status) {
-        app1.assertArticleStatuss(status);
+    @Test
+    public void testUpdateInstructor() {
+        // محاكاة المدخلات باستخدام Scanner
+        Scanner scanner = new Scanner(System.in);
+
+        // إضافة المعلم أولاً عبر الـ Scanner
+        app1.addInstructor(scanner);
+
+        // التحقق من أن المعلم تم إضافته (التأكد من أن الـ Map يحتوي على عنصر واحد على الأقل)
+        assertFalse(Admin.instructors.isEmpty());
+
+        // الحصول على أول معلم تم إضافته (المفتاح الأول)
+        String firstInstructor = Admin.instructors.keySet().iterator().next();
+
+        // محاكاة مدخلات كلمة المرور الجديدة عبر الـ Scanner
+        System.out.print("Enter new password for " + firstInstructor + ": ");
+        String newPassword = scanner.nextLine(); // قراءة كلمة المرور الجديدة من المستخدم
+
+        // تحديث كلمة مرور المعلم
+        app1.updateInstructor(scanner);
+
+        // التحقق من أن كلمة المرور تم تحديثها في الـ Map
+        String storedPassword = Admin.instructors.get(firstInstructor);
+        assertNotNull(storedPassword);  // التأكد من أنه تم تخزين كلمة المرور
+        assertEquals(newPassword, storedPassword);  // التحقق من أن الكلمة هي نفس المدخلة من قبل المستخدم
+
+        // التأكد من أن القيم المخزنة في Map هي نفسها التي تم إدخالها عبر الـ Scanner
+        System.out.println("Instructor updated: " + firstInstructor + " with new password: " + storedPassword);
     }
 
-    @Then("it should be visible on the platform")
-    public void it_should_be_visible_on_the_platform() {
-        app1.assertArticleStatus(true);
+
+    @Test
+    public void testAddClient() {
+        // محاكاة المدخلات باستخدام Scanner
+        Scanner scanner = new Scanner(System.in);
+
+        // إضافة العميل عبر الـ Scanner
+        app1.addClient(scanner);
+
+        // التحقق من أن العميل تم إضافته (التأكد من أن الـ Map يحتوي على عنصر واحد على الأقل)
+        assertFalse(app1.accounts.isEmpty());
+
+        // الحصول على أول عميل تم إضافته (المفتاح الأول)
+        String firstClient = app1.accounts.keySet().iterator().next();
+
+        // التأكد من أن العميل تم إضافته إلى الـ Map
+        assertNotNull(firstClient);  // التأكد من أن المفتاح ليس فارغًا
+        System.out.println("Client added: " + firstClient);
     }
 
-    @Then("it should not be visible on the platform")
-    public void it_should_not_be_visible_on_the_platform() {
-        app1.assertArticleStatus(false);
+
+
+    @Test
+    public void testUpdateClient() {
+        // محاكاة المدخلات باستخدام Scanner
+        Scanner scanner = new Scanner(System.in);
+
+        // إضافة العميل أولاً عبر الـ Scanner
+        app1.addClient(scanner);
+
+        // التحقق من أن العميل تم إضافته (التأكد من أن الـ Map يحتوي على عنصر واحد على الأقل)
+        assertFalse(app1.accounts.isEmpty());
+
+        // الحصول على أول عميل تم إضافته (المفتاح الأول)
+        String firstClient = app1.accounts.keySet().iterator().next();
+
+        // محاكاة مدخلات كلمة المرور الجديدة عبر الـ Scanner
+        System.out.print("Enter new password for " + firstClient + ": ");
+        String newPassword = scanner.nextLine(); // قراءة كلمة المرور الجديدة من المستخدم
+
+        // تحديث كلمة مرور العميل
+        app1.updateClient(scanner);
+
+        // التحقق من أن كلمة المرور تم تحديثها في الـ Map
+        String storedPassword = app1.accounts.get(firstClient);
+        assertNotNull(storedPassword);  // التأكد من أنه تم تخزين كلمة المرور
+        assertEquals(newPassword, storedPassword);  // التحقق من أن الكلمة هي نفس المدخلة من قبل المستخدم
+
+        // التأكد من أن القيم المخزنة في Map هي نفسها التي تم إدخالها عبر الـ Scanner
+        System.out.println("Client updated: " + firstClient + " with new password: " + storedPassword);
     }
 
- 
-    @When("I enter {string} into the search bar")
-    public void i_enter_into_the_search_bar(String query) {
-        app1.enterSearchQuery(query);
+
+    @Test
+    public void testDeactivateClient() {
+        // محاكاة المدخلات باستخدام Scanner
+        Scanner scanner = new Scanner(System.in);
+
+        // إضافة العميل أولاً عبر الـ Scanner
+        app1.addClient(scanner);
+
+        // التحقق من أن العميل تم إضافته (التأكد من أن الـ Map يحتوي على عنصر واحد على الأقل)
+        assertFalse(app1.accounts.isEmpty());
+
+        // الحصول على أول عميل تم إضافته (المفتاح الأول)
+        String firstClient = app1.accounts.keySet().iterator().next();
+
+        // إلغاء تفعيل العميل
+        app1.deactivateClient(scanner);
+
+       
+        System.out.println("Client deactivated: " + firstClient);
     }
 
-    @Then("I should see articles related to {string}")
-    public void i_should_see_articles_related_to(String topic) {
-        app1.assertArticlesRelatedTo(topic);
-    }
-
-    @Then("the search results should contain the word {string} in the title")
-    public void the_search_results_should_contain_the_word_in_the_title(String word) {
-        app1.assertSearchResultsContain(word);
-    }
-
-    @When("I select {string} from the article status dropdown")
-    public void i_select_from_the_article_status_dropdown(String status) {
-        app1.selectArticleStatus(status, status);
-    }
-
-    @Then("I should see only articles with the {string} status")
-    public void i_should_see_only_articles_with_the_status(String status) {
-        app1.assertOnlyArticlesWithStatus(status);
-    }
-
-    @Then("I should see a list of programs sorted by enrollment numbers")
-    public void i_should_see_a_list_of_programs_sorted_by_enrollment_numbers() {
-        app1.assertProgramsSortedByEnrollment();
-    }
-
-    @When("I select {string} as the report type")
-    public void i_select_as_the_report_type(String reportType) {
-        app1.selectReportType(reportType);
-    }
-
- 
-
-    @Then("a PDF report should be created and available for download")
-    public void a_pdf_report_should_be_created_and_available_for_download() {
-        app1.assertPdfReportAvailableForDownload();
-    }
-
-    @Then("I should see two sections: active programs and completed programs")
-    public void i_should_see_two_sections_active_programs_and_completed_programs() {
-        app1.assertSectionsVisible("active programs", "completed programs");
-    }
-
-    @When("I fill in the user's details \\(e.g., name, role)")
-    public void i_fill_in_the_user_s_details_e_g_name_role() {
-        app1.fillUserDetails();
-    }
-
-    @Then("the new user account should be created successfully")
-    public void the_new_user_account_should_be_created_successfully() {
-        app1.assertUserAccountCreated("John Doe");
-    }
-
-    @When("I select an existing user account")
-    public void i_select_an_existing_user_account() {
-        app1.selectUserAccount("John Doe");
-    }
-
-    @When("I update the user details \\(e.g., name, role)")
-    public void i_update_the_user_details_e_g_name_role() {
-        app1.updateUserDetails("Updated Name", "Updated Role");
-    }
-
-    @Then("the user account should be updated successfully")
-    public void the_user_account_should_be_updated_successfully() {
-        app1.assertUserAccountUpdated("Updated Name");
-    }
-
-    @When("I select a user account")
-    public void i_select_a_user_account() {
-        app1.selectUserAccount("John Doe");
-    }
-
-    @Then("the user account should be marked as inactive")
-    public void the_user_account_should_be_marked_as_inactive() {
-        app1.assertUserAccountInactive("John Doe");
-    }
-
-    @When("I review an instructor's application")
-    public void i_review_an_instructor_s_application() {
-        app1.reviewInstructorApplication("InstructorName");
-    }
-
-    @Then("the instructor account should be activated")
-    public void the_instructor_account_should_be_activated() {
-        app1.assertInstructorAccountActivated("InstructorName");
-    }
-
-    @Then("I should see statistics such as login frequency and program enrollments")
-    public void i_should_see_statistics_such_as_login_frequency_and_program_enrollments() {
-        app1.assertStatisticsDisplayed();
-    }
 }

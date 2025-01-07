@@ -6,45 +6,33 @@ Feature: Content Management
   Background:
     Given I am logged into the admin portal
     And I have the necessary permissions to manage content
+  Scenario: Submit Tip
+    Given the user wants to submit a tip
+    When the tip content is "This is a tip."
+    Then the tip should be added successfully
 
-  Scenario: Approve an article submitted by an instructor
-    Given an article has been submitted by an instructor
-    When I review the content
-    And the article meets the quality guidelines
-    Then I approve the article
-    And the article is published on the platform
+  Scenario: Submit Empty Tip
+    Given the user wants to submit a tip
+    When the tip content is empty
+    Then the system should display "Error: Tip content cannot be empty."
 
-  Scenario: Reject an article submitted by an instructor
-    Given an article has been submitted by an instructor
-    When I review the content
-    And the article does not meet the quality guidelines
-    Then I reject the article
-    And notify the instructor with feedback
+  Scenario: Review Tip
+    Given there is a tip "Tip 1" in the system
+    When the user reviews tips
+    Then the system should display the first tip "Tip 1"
 
-  Scenario: Approve a health or wellness tip
-    Given a wellness tip has been shared on the platform
-    When I review the tip
-    And it aligns with the platform's guidelines
-    Then I approve the tip
-    And it becomes visible to users
+  Scenario: Approve Tip
+    Given the tip "Tip 1" exists in the system
+    When the user approves the tip "Tip 1"
+    Then the system should display "Tip approved: Tip 1"
 
-  Scenario: Reject a tip that does not meet the guidelines
-    Given a wellness tip has been shared on the platform
-    When I review the tip
-    And it does not meet health and wellness standards
-    Then I reject the tip
-    And provide feedback to the submitter
+  Scenario: Reject Tip
+    Given the tip "Tip 1" exists in the system
+    When the user rejects the tip "Tip 1"
+    Then the tip "Tip 1" should be removed from the system
 
-  Scenario: Handle user feedback
-    Given a user has submitted feedback about content
-    When I review the feedback
-    And it highlights a valid issue
-    Then I mark the feedback for further action
-    And notify the content team
-
-  Scenario: Handle user complaints
-    Given a user has submitted a complaint about content
-    When I review the complaint
-    And the complaint is valid
-    Then I remove the content from the platform
-    And notify the user of the resolution
+  Scenario: Reject Nonexistent Tip
+    Given the user attempts to reject a nonexistent tip
+    When the tip content is "Nonexistent Tip"
+    Then the system should display "Error: Tip not found."
+  
