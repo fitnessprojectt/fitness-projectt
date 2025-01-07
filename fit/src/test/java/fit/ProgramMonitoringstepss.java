@@ -6,20 +6,20 @@ import io.cucumber.java.en.Then;
 
 public class ProgramMonitoringstepss {
 
-    private MyApplication app;
+    private Admin app1;
 
     public ProgramMonitoringstepss() {
-        app = new MyApplication(); // تهيئة MyApplication
+        app1 = new Admin(); 
     }
 
     @Given("I am logged into the Program Monitoring System")
     public void i_am_logged_into_the_program_monitoring_system() {
-        app.loginAsAdmin("adminUsername", "adminPassword"); // تسجيل الدخول كأدمن باستخدام بيانات افتراضية
+        app1.loginAsAdmin("adminUsername", "adminPassword"); 
     }
 
     @When("I navigate to the {string} section")
     public void i_navigate_to_the_section(String section) {
-        app.navigateToPage(section);  // التوجيه إلى القسم المطلوب
+        app1.navigateToPage(section); 
     }
 
     @Then("I should see a bar chart representing the enrollment numbers")
@@ -34,12 +34,12 @@ public class ProgramMonitoringstepss {
 
     @Given("I am on the {string} section")
     public void i_am_on_the_section(String section) {
-        app.navigateToPage(section);  // التوجيه إلى القسم المطلوب
+        app1.navigateToPage(section); 
     }
 
     @When("I select {string} and specify a date range")
     public void i_select_and_specify_a_date_range(String reportType) {
-        app.selectReportType(reportType); // تحديد نوع التقرير
+        app1.selectReportType(reportType); 
     }
 
     @Then("I should see a report with total revenue for each program")
@@ -59,12 +59,12 @@ public class ProgramMonitoringstepss {
 
     @When("I select {string}")
     public void i_select(String filterType) {
-        app.selectReportType(filterType); // تحديد نوع التقرير بناءً على الخيار المحدد
+        app1.selectReportType(filterType); 
     }
 
     @When("I specify a program or client")
     public void i_specify_a_program_or_client() {
-        app.selectUserAccount("client");  // تحديد حساب البرنامج أو العميل
+        app1.selectUserAccount("client"); 
     }
 
     @Then("I should see attendance statistics with the number of sessions attended")
@@ -79,7 +79,7 @@ public class ProgramMonitoringstepss {
 
     @When("I specify a client or program")
     public void i_specify_a_client_or_program() {
-        app.selectUserAccount("client");  // تحديد حساب العميل أو البرنامج
+        app1.selectUserAccount("client"); 
     }
 
     @Then("I should see the client's progress through the program")

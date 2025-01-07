@@ -6,10 +6,10 @@ import java.util.List;
 
 public class NotificationsAndUpdatesSteps {
 
-    MyApplication app;
+    Instructor app2;
 
     public NotificationsAndUpdatesSteps() {
-        app = new MyApplication();
+        app2 = new Instructor();
     }
 
     private String programName;
@@ -24,16 +24,16 @@ public class NotificationsAndUpdatesSteps {
         scheduleChange = List.of("Every Monday and Wednesday at 6 PM");
         System.out.println("Updated the schedule for " + programName + ": " + scheduleChange);
 
-        app.updateSchedule(programName, scheduleChange);
+        app2.updateSchedule(programName, scheduleChange);
     }
 
     @Then("all enrolled clients should receive a notification about the schedule change")
     public void allEnrolledClientsShouldReceiveANotificationAboutTheScheduleChange() {
-        enrolledClients = app.getEnrolledClients(programName);
+        enrolledClients = app2.getEnrolledClients(programName);
         notificationMessage = "The schedule for " + programName + " has been updated: " + scheduleChange;
 
         for (String client : enrolledClients) {
-            app.sendNotification(client, notificationMessage);
+            app2.sendNotification(client, notificationMessage);
             System.out.println("Notification sent to " + client + ": " + notificationMessage);
         }
     }
@@ -46,16 +46,16 @@ public class NotificationsAndUpdatesSteps {
         String endDate = "2024-06-01";  
         System.out.println("Created a new fitness program: " + programName);
 
-        app.createNewProgram(programName, type, startDate, endDate);
+        app2.createNewProgram(programName, type, startDate, endDate);
     }
 
     @Then("all clients should receive a notification about the new program")
     public void allClientsShouldReceiveANotificationAboutTheNewProgram() {
-        List<String> allClients = app.getAllClients();
+        List<String> allClients = app2.getAllClients();
         notificationMessage = "A new fitness program is now available: " + programName;
 
         for (String client : allClients) {
-            app.sendNotification(client, notificationMessage);
+            app2.sendNotification(client, notificationMessage);
             System.out.println("Notification sent to " + client + ": " + notificationMessage);
         }
     }
@@ -65,16 +65,16 @@ public class NotificationsAndUpdatesSteps {
         newOffer = "20% discount on Fitness Program 2";
         System.out.println("Created a new offer: " + newOffer);
 
-        app.createNewOffer(newOffer);
+        app2.createNewOffer(newOffer);
     }
 
     @Then("all clients should receive a notification about the special offer")
     public void allClientsShouldReceiveANotificationAboutTheSpecialOffer() {
-        List<String> allClients = app.getAllClients();
+        List<String> allClients = app2.getAllClients();
         notificationMessage = "Special offer: " + newOffer;
 
         for (String client : allClients) {
-            app.sendNotification(client, notificationMessage);
+            app2.sendNotification(client, notificationMessage);
             System.out.println("Notification sent to " + client + ": " + notificationMessage);
         }
     }

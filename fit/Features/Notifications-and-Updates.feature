@@ -1,9 +1,3 @@
-
-
-
-
-
-
 Feature: Notifications and Updates
   As an instructor
   I want to notify clients of changes and updates

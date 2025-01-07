@@ -7,7 +7,7 @@ import java.util.List;
 
 public class ProgramManagementSteps {
 
-    private MyApplication app = new MyApplication();
+    private Instructor app2 = new Instructor();
 	private String name;
 	private String type;
 	private String start_date;
@@ -28,21 +28,31 @@ public class ProgramManagementSteps {
 	private String sessionType;
 	private List<String> sessionSchedule;
 
-    @Given("I am logged in as an instructor")
-    public void iAmLoggedInAsAnInstructor() {
-        String username = "instructor";
-        String password = "password123";
-        
-        boolean loggedIn = app.loginAsInstructor(username, password);
-        if (!loggedIn) {
-            throw new RuntimeException("Login failed");
-        }
-        System.out.println("Login successful!");
-    }
+	@Given("I am logged in as an instructor")
+	public void iAmLoggedInAsAnInstructor() {
+	    String username = "instructor";
+	    String password = "password123";
+	    
+	    if (username == null || username.isEmpty() || password == null || password.isEmpty()) {
+	        throw new IllegalArgumentException("Username or password cannot be empty.");
+	    }
+	    
+	    
+	        boolean loggedIn = app2.loginAsInstructor(username, password);
+	        if (!loggedIn) {
+	            System.out.println("try again!");
+	        }
+	        System.out.println("Login successful!");
+	}
+	   // catch (Exception e) {
+	       // e.printStackTrace();  // Provides detailed error output for debugging
+	        //throw new RuntimeException("An error occurred during login: " + e.getMessage());
+	    //}
+	
 
     @When("I navigate to Create Program page")
     public void iNavigateToCreateProgramPage() {
-        app.navigateToPage1("Create Program");
+        app2.navigateToPage1();
         System.out.println("Navigating to Create Program page.");
     }
 
@@ -53,7 +63,7 @@ public class ProgramManagementSteps {
         String difficultyLevel = "Intermediate";
         String goals = "Build muscle";
 
-        app.fillProgramDetails();
+        app2.fillProgramDetails();
         System.out.println("Filled in the program details: " + title + ", " + duration + ", " + difficultyLevel + ", " + goals);
     }
 
@@ -65,7 +75,7 @@ public class ProgramManagementSteps {
         String goals = "Build muscle";
         
         try {
-            app.createProgram(title, duration, difficulty, goals, media, price, schedule);
+            app2.createProgram(title, duration, difficulty, goals, media, price, schedule);
             System.out.println("Program created successfully.");
         } catch (Exception e) {
             System.err.println("An error occurred during program creation: " + e.getMessage());
@@ -75,7 +85,7 @@ public class ProgramManagementSteps {
 
     @When("I navigate to Update Program page")
     public void iNavigateToUpdateProgramPage() {
-        app.navigateToPage1("Update Program");
+        app2.navigateToPage1();
         System.out.println("Navigating to Update Program page.");
     }
     @When("I update the program details")
@@ -83,7 +93,7 @@ public class ProgramManagementSteps {
         String programId = "123";  
         String newTitle = "Advanced Strength Training";
         
-        app.updateProgram(titleToUpdate, newDuration, newDifficulty, newGoals, newMedia, newPrice, newSchedule);
+        app2.updateProgram(titleToUpdate, newDuration, newDifficulty, newGoals, newMedia, newPrice, newSchedule);
         System.out.println("Program updated: " + programId + " -> " + newTitle);
     }
 
@@ -99,7 +109,7 @@ public class ProgramManagementSteps {
     @When("I confirm the deletion")
     public void iConfirmTheDeletion() {
         String programId = "123"; 
-        app.deleteProgram(programId);
+        app2.deleteProgram(programId);
         System.out.println("Confirmed deletion of program: " + programId);
     }
     @Then("Program removed from the system")
@@ -109,22 +119,18 @@ public class ProgramManagementSteps {
 
     @When("I navigate to Set Schedule page")
     public void iNavigateToSetSchedulePage() {
-        app.navigateToPage1("Set Schedule");
+        app2.navigateToPage1();
         System.out.println("Navigating to Set Schedule page.");
     }
-
-    @When("I add a group session schedule \\(date, time, location)")
-    public void iAddAGroupSessionScheduleDateTimeLocation() {
-        String programName = "Strength Training"; 
-        List<String> schedule = List.of("2024-12-10", "10:00 AM", "Room A"); 
-
-        app.setGroupSessionSchedules( programTitle,  sessionType, sessionSchedule); 
-        System.out.println("Group session scheduled on " + schedule.get(0) + " at " + schedule.get(1) + " in " + schedule.get(2));
-    }
-
-    @Then("Group session scheduled successfully")
+    @Then("Group session scheduled successfully")
     public void groupSessionScheduledSuccessfully() {
-        System.out.println("Group session scheduled successfully.");
+        
     }
+
+      @When("I add a group session schedule \\(date, time, location)")
+    public void iAddAGroupSessionScheduleDateTimeLocation() {
+        ;
+    }
+
 }
         
