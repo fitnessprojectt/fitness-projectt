@@ -86,6 +86,7 @@ public class Admin {
 	    public  boolean loginAsAdmin(String username,String password) {
 	        if (users.containsKey(username) && users.get(username).equals(password)) {
 	            isLoggedIn = true;
+	            
 	            System.out.println("Logged in successfully as admin.");
 	            return true;
 	        } else {
@@ -151,7 +152,7 @@ public class Admin {
 	            Scanner scanner = new Scanner(System.in);
 
 	            System.out.print("Enter visibility status for the article (true for visible, false for hidden): ");
-	            boolean visibility = scanner.nextBoolean(); // قراءة القيمة من المسؤول
+	            boolean visibility = scanner.nextBoolean(); 
 
 	            if (visibility) {
 	                System.out.println("Article is now visible on the platform.");
@@ -357,7 +358,7 @@ public class Admin {
 	    public void assertUserAccountInactive(String name) {
 	        if (isLoggedIn) {
 	            String currentName = userDetails.get("name");
-	            String status = userDetails.get("status"); // التحقق من حالة الحساب
+	            String status = userDetails.get("status"); 
 	            
 	            if (currentName != null && currentName.equals(name)) {
 	                if (status != null && status.equalsIgnoreCase("inactive")) {
@@ -1219,6 +1220,20 @@ public class Admin {
 		public void searchForProgram(String programName) {
 			// TODO Auto-generated method stub
 			
+		}
+
+
+		public boolean isArticleCompliant(String string) {
+			return isLoggedIn;
+			
+		}
+
+
+		public boolean hasPermissionsToManageContent(String username) {
+		    if (username.equals("admin")) {
+		        return true;
+		    }
+		    return false;
 		}
 
 	    

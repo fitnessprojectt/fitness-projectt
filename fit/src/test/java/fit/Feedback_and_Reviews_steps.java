@@ -21,7 +21,6 @@ public class Feedback_and_Reviews_steps {
 
     @Before
     public void setup() {
-        // Prepopulate the system with valid credentials
         app3.loginClient("validUsername", "validPassword");
     }
     @Test
@@ -34,13 +33,11 @@ public class Feedback_and_Reviews_steps {
     }
     @Given("the client has completed a fitness program")
     public void the_client_has_completed_a_fitness_program() {
-        // Ensure these are valid credentials in your system
         String username = "validUsername";
         String password = "validPassword";
 
         app3.loginClient(username, password);
 
-        // Verify the login was successful
         assertTrue("Login failed. Ensure username and password are correct.", app3.isLoggedIn());
 
         app3.completeFitnessProgram();

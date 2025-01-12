@@ -1,5 +1,4 @@
 package com.myapp.menu;
-
 import fit.Admin;
 import fit.Clienttt;
 import fit.Instructor;
@@ -16,8 +15,6 @@ public class MAIN {
     private static Map<String, String> clientsMap = new HashMap<>();
     private static Map<String, String> instructorsMap = new HashMap<>();
 	private static Map<String, String> accounts= new HashMap<>();
-		
-
     public static void main(String[] args) {
     	MAIN app = new MAIN();
         Admin app1 = new Admin();

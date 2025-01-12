@@ -453,6 +453,9 @@ public class Clienttt {
 	    }
 
 	    public String viewAttendanceHistory() {
+	    	//if (this.currentClient == null) {
+	    	  //  throw new IllegalStateException("No client is currently logged in.");
+	    	//}
 	        List<String> list3 = currentClient.getAttendanceHistory();
 	        return "*** View Attendance History ***\n" +
 	               "Attendance History: " + String.join(" ----- ", list3);

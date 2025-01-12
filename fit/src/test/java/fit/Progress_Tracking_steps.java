@@ -18,13 +18,11 @@ public class Progress_Tracking_steps {
     
     @When("the client navigates to the progress section")
     public void theClientNavigatesToTheProgressSection() {
-        // قم بتنفيذ خطوة الانتقال إلى قسم التقدم
         app3.navigateToProgressTrackingPage();
     }
 
     @When("the client requests to view milestones")
     public void theClientRequestsToViewMilestones() {
-        // تنفيذ خطوة طلب المعالم
         app3.viewMilestones();
     }
 
@@ -40,26 +38,23 @@ public class Progress_Tracking_steps {
    
     @When("the client views their achievements")
     public void the_client_views_their_achievements() {
-        // التأكد من أن العميل قد قام بتسجيل الدخول بنجاح
         assertNotNull("Client should be logged in to view achievements", displayedInfo);
-        displayedInfo = app3.viewAchievements(); // استعراض الإنجازات
+        displayedInfo = app3.viewAchievements();
     }
 
     @Then("the system displays any badges earned for completing the program")
     public void the_system_displays_badges_earned() {
-        // التأكد من أن البيانات غير فارغة أو null
         assertNotNull("Displayed information cannot be null", displayedInfo);
-        assertTrue(displayedInfo.contains("Badges")); // التأكد من وجود "Badges" في المعلومات المعروضة
+        assertTrue(displayedInfo.contains("Badges")); 
     }
 
     @Given("the client has enrolled in a fitness program")
     public void the_client_has_enrolled_in_a_fitness_program() {
-        String username = "yumna"; // تأكد من أن هذه القيم صحيحة
-        String password = "pass123"; // تأكد من أن كلمة المرور صحيحة
+        String username = "yumna"; 
+        String password = "pass123";
         try {
-            app3.loginClient(username, password);  // تمرير بيانات الاعتماد الصحيحة
+            app3.loginClient(username, password);
         } catch (RuntimeException e) {
-            // تسجيل فشل تسجيل الدخول مع رسالة الخطأ
             System.err.println("Login failed: " + e.getMessage());
             assertTrue("Login failed: " + e.getMessage(), false);
         }
@@ -77,18 +72,13 @@ public class Progress_Tracking_steps {
     
     @Given("the client has set fitness goals")
     public void the_client_has_set_fitness_goals() {
-        // التأكد من أن بيانات اسم المستخدم وكلمة المرور ليست فارغة أو null
         assertNotNull("Displayed information cannot be null", displayedInfo);
-        
-        // إذا كانت المعلومات المعروضة فارغة، قم برفع استثناء مناسب
-        if (displayedInfo.isEmpty()) {
+                if (displayedInfo.isEmpty()) {
             fail("Displayed information is empty");
         }
 
-        // تسجيل الدخول باستخدام المعلومات المعروضة
         app3.loginClient(displayedInfo, displayedInfo);
         
-        // تحديد الأهداف الرياضية
         app3.setFitnessGoals("Lose 5kg", "Improve BMI","Run 5km");
     }
     @When("the client checks progress towards those goals")

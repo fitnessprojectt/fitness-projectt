@@ -12,51 +12,16 @@ public class ProgramMonitoringstepss {
         app1 = new Admin(); 
     }
 
-    // تسجيل الدخول بنجاح
     @Given("I am logged into the Program Monitoring System")
     public void i_am_logged_into_the_program_monitoring_system() {
         app1.loginAsAdmin("adminUsername", "adminPassword"); 
     }
 
-    // محاولة تسجيل الدخول مع بيانات غير صحيحة
-    @Given("I am not logged in")
-    public void i_am_not_logged_in() {
-        System.out.println("User is not logged in.");
-    }
-
-    @When("I try to login with invalid credentials")
-    public void i_try_to_login_with_invalid_credentials() {
-        app1.loginAsAdmin("invalidUsername", "invalidPassword");
-    }
-
-    @Then("I should receive an error message indicating invalid credentials")
-    public void i_should_receive_an_error_message_indicating_invalid_credentials() {
-        System.out.println("Received error message for invalid login.");
-    }
-
-    // الانتقال إلى قسم معين
     @When("I navigate to the {string} section")
     public void i_navigate_to_the_section(String section) {
         app1.navigateToPage(section); 
     }
 
-    // التحقق من الوصول إلى قسم غير مصرح به
-    @Given("I am not authorized to access the {string} section")
-    public void i_am_not_authorized_to_access_the_section(String section) {
-        System.out.println("User does not have access to " + section + " section.");
-    }
-
-    @When("I try to navigate to the {string} section")
-    public void i_try_to_navigate_to_the_section(String section) {
-        app1.navigateToPage(section);
-    }
-
-    @Then("I should see an error message about unauthorized access")
-    public void i_should_see_an_error_message_about_unauthorized_access() {
-        System.out.println("Received error message about unauthorized access.");
-    }
-
-    // التفاعل مع التقارير والفلاتر
     @Then("I should see a bar chart representing the enrollment numbers")
     public void i_should_see_a_bar_chart_representing_the_enrollment_numbers() {
         System.out.println("Displaying bar chart for enrollment numbers.");
@@ -67,82 +32,71 @@ public class ProgramMonitoringstepss {
         System.out.println("Filter applied for different time periods.");
     }
 
-    @When("I select a filter for {string} and specify a range from {int} to {int}")
-    public void i_select_a_filter_for_and_specify_a_range(String filterType, Integer min, Integer max) {
-        app1.selectFilter(filterType, min, max);
+    @Given("I am on the {string} section")
+    public void i_am_on_the_section(String section) {
+        app1.navigateToPage(section); 
     }
 
-    @Then("I should see the results filtered by {string} from {int} to {int}")
-    public void i_should_see_the_results_filtered_by_from_to(String filterType, Integer min, Integer max) {
-        System.out.println("Results filtered by " + filterType + " from " + min + " to " + max);
+    @When("I select {string} and specify a date range")
+    public void i_select_and_specify_a_date_range(String reportType) {
+        app1.selectReportType(reportType); 
     }
 
-    // التفاعل مع التقارير والفترات الزمنية
-    @When("I specify a time range from {string} to {string}")
-    public void i_specify_a_time_range_from_to(String startDate, String endDate) {
-        app1.setDateRange(startDate, endDate);
+    @Then("I should see a report with total revenue for each program")
+    public void i_should_see_a_report_with_total_revenue_for_each_program() {
+        System.out.println("Displaying total revenue report for each program.");
     }
 
-    @Then("I should see the data filtered by the specified date range")
-    public void i_should_see_the_data_filtered_by_the_specified_date_range() {
-        System.out.println("Data filtered by date range.");
+    @Then("I should see the amount paid by each client for the program")
+    public void i_should_see_the_amount_paid_by_each_client_for_the_program() {
+        System.out.println("Displaying amount paid by each client for the program.");
     }
 
-    // التعامل مع الجداول
-    @When("I search for a program with the name {string}")
-    public void i_search_for_a_program_with_the_name(String programName) {
-        app1.searchForProgram(programName);
+    @Then("I should be able to export the report in PDF or Excel format")
+    public void i_should_be_able_to_export_the_report_in_pdf_or_excel_format() {
+        System.out.println("Exporting report in selected format.");
     }
 
-    @Then("I should see the program {string} listed in the results")
-    public void i_should_see_the_program_listed_in_the_results(String programName) {
-        System.out.println("Program " + programName + " displayed in search results.");
+    @When("I select {string}")
+    public void i_select(String filterType) {
+        app1.selectReportType(filterType); 
     }
 
-    // استقبال إشعارات
-    @Then("I should receive a notification about the upcoming session")
-    public void i_should_receive_a_notification_about_the_upcoming_session() {
-        System.out.println("Receiving notification about the upcoming session.");
+    @When("I specify a program or client")
+    public void i_specify_a_program_or_client() {
+        app1.selectUserAccount("client"); 
     }
 
-    @Then("I should receive a reminder for any tasks or assessments that need to be completed")
-    public void i_should_receive_a_reminder_for_any_tasks_or_assessments_that_need_to_be_completed() {
-        System.out.println("Receiving reminder for tasks or assessments.");
+    @Then("I should see attendance statistics with the number of sessions attended")
+    public void i_should_see_attendance_statistics_with_the_number_of_sessions_attended() {
+        System.out.println("Displaying attendance statistics with sessions attended.");
     }
 
-    // إتمام المهام والمراحل
-    @When("I complete a milestone or reach {int}% completion")
-    public void i_complete_a_milestone_or_reach_completion(Integer completionPercentage) {
-        System.out.println("Completing milestone or reaching " + completionPercentage + "% completion.");
+    @Then("I should see the number of sessions missed by each client")
+    public void i_should_see_the_number_of_sessions_missed_by_each_client() {
+        System.out.println("Displaying number of sessions missed by each client.");
     }
 
-    @Then("I should receive an alert about my progress and achievements")
-    public void i_should_receive_an_alert_about_my_progress_and_achievements() {
-        System.out.println("Receiving alert about progress and achievements.");
+    @When("I specify a client or program")
+    public void i_specify_a_client_or_program() {
+        app1.selectUserAccount("client"); 
     }
 
-    // تصدير التقرير
-    @Given("I am viewing a revenue report")
-    public void i_am_viewing_a_revenue_report() {
-        System.out.println("Viewing revenue report.");
+    @Then("I should see the client's progress through the program")
+    public void i_should_see_the_client_s_progress_through_the_program() {
+        System.out.println("Displaying client progress through the program.");
     }
 
-    @When("I click on the {string} button")
-    public void i_click_on_the_button(String buttonName) {
-        System.out.println("Clicked on the " + buttonName + " button.");
+    @Then("I should see milestones and achievements reached by the client")
+    public void i_should_see_milestones_and_achievements_reached_by_the_client() {
+        System.out.println("Displaying client milestones and achievements.");
     }
 
-    @Then("I should be able to select PDF or Excel format")
-    public void i_should_be_able_to_select_pdf_or_excel_format() {
-        System.out.println("Selecting PDF or Excel format.");
+    @When("I select the {string} tab")
+    public void i_select_the_tab(String tab) {
+        System.out.println("Navigating to the " + tab + " tab.");
     }
 
-    @Then("I should receive the report in the selected format")
-    public void i_should_receive_the_report_in_the_selected_format() {
-        System.out.println("Received report in selected format.");
-    }
-
-    // إدارة البرامج
     @Then("I should see a list of active programs with the number of enrollees")
     public void i_should_see_a_list_of_active_programs_with_the_number_of_enrollees() {
         System.out.println("Displaying active programs with enrollees count.");
@@ -168,7 +122,6 @@ public class ProgramMonitoringstepss {
         System.out.println("Archiving or deactivating completed programs.");
     }
 
-    // لوحة بيانات العميل
     @Given("I am on the client dashboard")
     public void i_am_on_the_client_dashboard() {
         System.out.println("Navigating to the client dashboard.");
@@ -189,7 +142,6 @@ public class ProgramMonitoringstepss {
         System.out.println("Displaying completed milestones and key achievements.");
     }
 
-    // تنبيهات في حال اقتراب جلسة
     @Given("I am a client enrolled in a program")
     public void i_am_a_client_enrolled_in_a_program() {
         System.out.println("Client is enrolled in a program.");
@@ -201,12 +153,41 @@ public class ProgramMonitoringstepss {
     }
 
     @Then("I should receive a notification about the upcoming session")
-    public void i_should_receive_a_notification_about_the_upcoming_session1() {
+    public void i_should_receive_a_notification_about_the_upcoming_session() {
         System.out.println("Receiving notification about the upcoming session.");
     }
 
     @Then("I should receive a reminder for any tasks or assessments that need to be completed")
-    public void i_should_receive_a_reminder_for_any_tasks_or_assessments_that_need_to_be_completed1() {
+    public void i_should_receive_a_reminder_for_any_tasks_or_assessments_that_need_to_be_completed() {
         System.out.println("Receiving reminder for tasks or assessments.");
+    }
+
+    @When("I complete a milestone or reach {int}% completion")
+    public void i_complete_a_milestone_or_reach_completion(Integer completionPercentage) {
+        System.out.println("Completing milestone or reaching " + completionPercentage + "% completion.");
+    }
+
+    @Then("I should receive an alert about my progress and achievements")
+    public void i_should_receive_an_alert_about_my_progress_and_achievements() {
+        System.out.println("Receiving alert about progress and achievements.");
+    }
+
+    @Given("I am viewing a revenue report")
+    public void i_am_viewing_a_revenue_report() {
+        System.out.println("Viewing revenue report.");
+    }
+
+    @When("I click on the {string} button")
+    public void i_click_on_the_button(String buttonName) {
+        System.out.println("Clicked on the " + buttonName + " button.");
+    }
+
+    @Then("I should be able to select PDF or Excel format")
+    public void i_should_be_able_to_select_pdf_or_excel_format() {
+        System.out.println("Selecting PDF or Excel format.");
+    }
+
+    @Then("I should receive the report in the selected format")
+    public void i_should_receive_the_report_in_the_selected_format() {
     }
 }

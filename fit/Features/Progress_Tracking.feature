@@ -19,4 +19,4 @@ Feature: Progress Tracking for Clients
   Scenario: Client checks progress towards goals
     Given the client has set fitness goals
     When the client checks progress towards those goals
-    Then the system shows how far the client has progressed in terms of weight, BMI, or other metrics                               
+    Then the system shows how far the client has progressed in terms of weight, BMI, or other metrics

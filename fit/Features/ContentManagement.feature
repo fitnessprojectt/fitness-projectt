@@ -34,5 +34,4 @@ Feature: Content Management
   Scenario: Reject Nonexistent Tip
     Given the user attempts to reject a nonexistent tip
     When the tip content is "Nonexistent Tip"
-    Then the system should display "Error: Tip not found."
-  
+    Then the system should display "Error: Tip not found."

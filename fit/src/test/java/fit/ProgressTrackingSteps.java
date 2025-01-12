@@ -14,7 +14,6 @@ public class ProgressTrackingSteps {
 
     public ProgressTrackingSteps() {
         app2 = new Instructor();
-        // تأكد من تهيئة البيانات في خريطة instructors
         app2.loginAsInstructor("israa", "soso123");
     }
 
